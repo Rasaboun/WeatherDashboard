@@ -2,6 +2,7 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 type WeatherData = {
   latitude: number;
@@ -32,8 +33,17 @@ type ResultsGeo = {
   results: GeoData[];
 };
 
-const CityTable = ({ city, setResultsGeo, setGeoData }: { city: ResultsGeo, setResultsGeo: React.Dispatch<React.SetStateAction<ResultsGeo | null>>, setGeoData: React.Dispatch<React.SetStateAction<GeoData | null>> }) => {
-  
+const CityTable = ({
+  city,
+  setResultsGeo,
+  setGeoData,
+  setWeatherData,
+}: {
+  city: ResultsGeo;
+  setResultsGeo: React.Dispatch<React.SetStateAction<ResultsGeo | null>>;
+  setGeoData: React.Dispatch<React.SetStateAction<GeoData | null>>;
+  setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>;
+}) => {
   return (
     <div className="rounded-lg border shadow-2xl">
       <table className="table-auto my-5">
@@ -49,7 +59,15 @@ const CityTable = ({ city, setResultsGeo, setGeoData }: { city: ResultsGeo, setR
           {city.results.map((geoData) => (
             <tr
               className="border-b border-neutral-700 rounded-lg hover:bg-neutral-700 hover:scale-110"
-              onClick={() => {setGeoData(geoData); setResultsGeo(null)}}
+              onClick={() => {
+                setGeoData(geoData);
+                setResultsGeo(null);
+                getData(
+                  geoData.latitude.toString(),
+                  geoData.longitude.toString(),
+                  setWeatherData
+                );
+              }}
               key={geoData.latitude + geoData.longitude}
             >
               <td className="px-6 py-4">{geoData.country}</td>
@@ -64,36 +82,119 @@ const CityTable = ({ city, setResultsGeo, setGeoData }: { city: ResultsGeo, setR
   );
 };
 
-const getData = async (lat: string, long: string, setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>> ) => {
+const getData = async (
+  lat: string,
+  long: string,
+  setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>
+) => {
   const res = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&timezone=auto`
   );
   const weatherData: WeatherData = await res.json();
-  if (!weatherData)
-  {
-    setWeatherData(null)
+  if (!weatherData) {
+    setWeatherData(null);
     return;
   }
-  setWeatherData(weatherData)
-}
+  setWeatherData(weatherData);
+};
 
-const WeatherDashboard = ({ city }: { city: GeoData }) => {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+const WeatherDashboard = ({
+  weatherData,
+}: {
+  weatherData: WeatherData | null;
+}) => {
+  const dayDef: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const todayDate = new Date().getDay();
+  let weatherDaily: JSX.Element[] = [];
+  let sunrise = "";
+  let sunset = "";
+  if (weatherData) {
+    sunset =
+      new Date(weatherData.daily.sunset[0]).getHours().toString() +
+      ":" +
+      new Date(weatherData.daily.sunset[0]).getMinutes().toString();
+    sunrise =
+      new Date(weatherData.daily.sunrise[0]).getHours().toString() +
+      ":" +
+      new Date(weatherData.daily.sunrise[0]).getMinutes().toString();
+  }
 
-  getData(city.latitude.toString(), city.longitude.toString(), setWeatherData);
+  for (let i = 0; i < 7; i++) {
+    if (weatherData?.daily) {
+      let date = new Date(weatherData.daily.time[i]);
+      let day = date.getDay();
+      weatherDaily.push(
+        <div
+          key={i}
+          className="items-center bg-neutral-800 rounded-lg w-fit flex flex-col p-2 space-y-2"
+        >
+          <h1 className="text-center text-xl font-mono font-bold">
+            {todayDate === day ? "Today" : dayDef[day]}
+          </h1>
+          <Image
+            priority
+            src="/nuage.svg"
+            alt="nuage Icon"
+            height={40}
+            width={40}
+          />
+          <div className="flex flex-row space-x-2">
+            <p className="font-bold">
+              {weatherData?.daily.temperature_2m_max[i]}°C
+            </p>
+            <p className="font-light">
+              {weatherData?.daily.temperature_2m_min[i]}°C
+            </p>
+          </div>
+        </div>
+      );
+    }
+  }
 
   return (
     <>
-      <h1>{weatherData && weatherData.daily.temperature_2m_max[0].toString()}</h1>
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mx-4">
+        <div className="overflow-auto bg-neutral-900 rounded-xl items-start row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
+          <h1 className="text-center text-xl font-mono font-bold">
+            Sunrise & Sunset
+          </h1>
+          <div className="flex flex-row space-x-4 items-center">
+            <Image
+              priority
+              src="/sunny.svg"
+              alt="Sunny Icon"
+              height={40}
+              width={40}
+            />
+            <p className="text-2xl font-medium">{sunrise}</p>
+          </div>
+          <div className="flex flex-row space-x-4 items-center">
+            <Image
+              priority
+              src="/night.svg"
+              alt="night Icon"
+              height={40}
+              width={40}
+            />
+            <p className="text-2xl font-medium">{sunset}</p>
+          </div>
+        </div>
+        <div className="overflow-auto bg-neutral-900 col-span-2 rounded-xl row-span-2 p-6 flex flex-row space-x-3">
+          {weatherDaily}
+        </div>
+
+        <h1 className="bg-neutral-900 py-4 px-4 text-center rounded-xl text-lg font-semibold">
+          Paris Weather DashBoard
+        </h1>
+      </div>
     </>
   );
 };
 
-export default function Home(props: { weatherData: WeatherData }) {
+export default function Home() {
   const [resultsGeo, setResultsGeo] = useState<ResultsGeo | null>(null);
   const [geoData, setGeoData] = useState<GeoData | null>(null);
-
-  if (!props.weatherData) return <ErrorPage statusCode={404} />;
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Prevent the browser from reloading the page
@@ -137,15 +238,15 @@ export default function Home(props: { weatherData: WeatherData }) {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <main className=" text-white">
-        <div className="flex space-y-4 flex-col h-screen justify-center items-center">
+        <div className="flex space-y-4 flex-col h-screen justify-center items-center mt-8">
           <form method="post" onSubmit={handleSubmit}>
-            <div className="flex flex-col space-y-2">
-              <label className="text-center text-3xl font-mono font-semibold">
+            <div className="flex flex-col space-y-4">
+              <label className="text-center text-4xl font-mono font-bold">
                 Your City
               </label>
               <div className="flex flex-row space-x-1">
                 <input
-                  className="text-black rounded-lg px-2 bg-gray-100"
+                  className="text-black rounded-lg px-2 py-1 bg-gray-100"
                   name="City"
                   defaultValue="Paris"
                   type="text"
@@ -169,8 +270,15 @@ export default function Home(props: { weatherData: WeatherData }) {
               </div>
             </div>
           </form>
-          {resultsGeo && <CityTable city={resultsGeo} setGeoData={setGeoData} setResultsGeo={setResultsGeo}/>}
-          {geoData && <WeatherDashboard city={geoData} />}
+          {resultsGeo && (
+            <CityTable
+              city={resultsGeo}
+              setGeoData={setGeoData}
+              setResultsGeo={setResultsGeo}
+              setWeatherData={setWeatherData}
+            />
+          )}
+          {geoData && <WeatherDashboard weatherData={weatherData} />}
         </div>
       </main>
     </>
