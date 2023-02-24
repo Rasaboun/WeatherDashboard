@@ -3,6 +3,24 @@ import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import {
+  PieChart,
+  ResponsiveContainer,
+  Pie,
+  Sector,
+  Cell,
+  Label,
+} from "recharts";
+
+const data = [
+  { name: "1", value: 1 },
+  { name: "3", value: 1 },
+  { name: "6", value: 1 },
+  { name: "8", value: 1 },
+  { name: "11", value: 1 },
+];
+
+const COLORS = ["#22c55e", "#f97316", "#c2410c", "#b91c1c", "#5b21b6"];
 
 type WeatherData = {
   latitude: number;
@@ -17,6 +35,10 @@ type WeatherData = {
     sunset: string[];
     uv_index_max: number[];
     weathercode: number[];
+  };
+  hourly: {
+    relativehumidity_2m: number[];
+    visibility: number[];
   };
 };
 
@@ -88,7 +110,7 @@ const getData = async (
   setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>
 ) => {
   const res = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&hourly=relativehumidity_2m,visibility&timezone=auto`
   );
   const weatherData: WeatherData = await res.json();
   if (!weatherData) {
@@ -150,10 +172,35 @@ const WeatherDashboard = ({
       );
     }
   }
+  const datas = [
+    { value: 0 },
+
+    { value: weatherData?.daily.uv_index_max[0] },
+    { value: 6 },
+    { value: 8 },
+    { value: 11 },
+  ];
+  let uvindex: number = 0;
+  let colorchoose: string = "none";
+
+  if (weatherData?.daily.uv_index_max[0]) {
+    uvindex = 180 - (weatherData.daily.uv_index_max[0] / 11) * 180;
+  }
+
+  let renderLabel = function (data: { name: string; value: number }) {
+    return data.name;
+  };
 
   return (
     <>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mx-4">
+      <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
+        <div className="flex flex-col space-y-10 col-span-full  row-span-2">
+          <h1 className="font-bold text-4xl">This Week</h1>
+          <div className="overflow-auto bg-neutral-900 rounded-xl p-6 flex flex-row space-x-3">
+            {weatherDaily}
+          </div>
+        </div>
+        <h1 className="col-span-full  row-span-2 font-bold text-4xl">Today</h1>
         <div className="overflow-auto bg-neutral-900 rounded-xl items-start row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
           <h1 className="text-center text-xl font-mono font-bold">
             Sunrise & Sunset
@@ -179,13 +226,95 @@ const WeatherDashboard = ({
             <p className="text-2xl font-medium">{sunset}</p>
           </div>
         </div>
-        <div className="overflow-auto bg-neutral-900 col-span-2 rounded-xl row-span-2 p-6 flex flex-row space-x-3">
-          {weatherDaily}
+
+        <div className="bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
+          <Image
+            priority
+            src="/humidity.svg"
+            alt="Humidity Icon"
+            height={72}
+            width={72}
+          />
+          <div className="flex flex-col text-center">
+            <h1 className="text-center text-xl font-mono font-bold">
+              Humidity
+            </h1>
+
+            <p className="text-3xl font-medium">
+              {weatherData?.hourly.relativehumidity_2m[0].toString() + " %"}
+            </p>
+          </div>
         </div>
 
-        <h1 className="bg-neutral-900 py-4 px-4 text-center rounded-xl text-lg font-semibold">
-          Paris Weather DashBoard
-        </h1>
+        <div className="bg-neutral-900 py-4 row-span-2 px-4 rounded-xl text-lg font-semibold flex flex-col">
+          <h1 className="text-center text-xl font-mono font-bold">UV INDEX</h1>
+          <ResponsiveContainer height={150}>
+            <PieChart>
+              <Pie
+                data={data}
+                cy="95%"
+                startAngle={180}
+                endAngle={0}
+                innerRadius={62}
+                outerRadius={75}
+                fill="#8884d8"
+                stroke="none"
+                dataKey="value"
+                nameKey="index"
+                label={renderLabel}
+                labelLine={false}
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Pie
+                data={datas}
+                cy="95%"
+                startAngle={180}
+                endAngle={uvindex}
+                innerRadius={60}
+                outerRadius={80}
+                fill="#8884d8"
+                stroke="none"
+                dataKey="value"
+              >
+                {datas.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill="#facc15" />
+                ))}
+
+                <Label
+                  className="font-mono fill-white"
+                  value={weatherData?.daily.uv_index_max[0]}
+                  position="center"
+                />
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
+          <Image
+            priority
+            src="/ThumbsUp.png"
+            alt="Humidity Icon"
+            height={62}
+            width={62}
+          />
+          <div className="flex flex-col text-center">
+            <h1 className="text-center text-xl font-mono font-bold">
+              Visibility
+            </h1>
+
+            <p className="text-3xl font-medium">
+              {weatherData?.hourly.visibility[0]
+                ? (weatherData.hourly.visibility[0] / 1000).toString() + " km"
+                : ""}
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
