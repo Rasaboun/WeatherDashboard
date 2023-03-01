@@ -67,7 +67,7 @@ const CityTable = ({
   setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>;
 }) => {
   return (
-    <div className="rounded-lg border shadow-2xl">
+    <div className="rounded-lg  shadow-2xl bg-neutral-900">
       <table className="table-auto my-5">
         <thead>
           <tr className="text-gray-300 font-bold text-lg uppercase">
@@ -80,7 +80,7 @@ const CityTable = ({
         <tbody>
           {city.results.map((geoData) => (
             <tr
-              className="border-b border-neutral-700 rounded-lg hover:bg-neutral-700 hover:scale-110"
+              className="border-b border-neutral-800 rounded-xl hover:bg-neutral-700 hover:scale-110"
               onClick={() => {
                 setGeoData(geoData);
                 setResultsGeo(null);
@@ -196,16 +196,16 @@ const WeatherDashboard = ({
       <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
         <div className="flex flex-col space-y-10 col-span-full  row-span-2">
           <h1 className="font-bold text-4xl">This Week</h1>
-          <div className="overflow-auto bg-neutral-900 rounded-xl p-6 flex flex-row space-x-3">
+          <div className="shadow-2xl  overflow-auto bg-neutral-900 rounded-xl p-6 flex flex-row space-x-3">
             {weatherDaily}
           </div>
         </div>
-        <h1 className="col-span-full  row-span-2 font-bold text-4xl">Today</h1>
-        <div className="overflow-auto bg-neutral-900 rounded-xl items-start row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
-          <h1 className="text-center text-xl font-mono font-bold">
+        <h1 className=" col-span-full  row-span-2 font-bold text-4xl">Today</h1>
+        <div className="place-content-center shadow-2xl align-middle overflow-auto bg-neutral-900 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
+          <h1 className=" text-xl font-mono font-bold">
             Sunrise & Sunset
           </h1>
-          <div className="flex flex-row space-x-4 items-center">
+          <div className="justify-center flex flex-row space-x-4 items-center">
             <Image
               priority
               src="/sunny.svg"
@@ -213,9 +213,9 @@ const WeatherDashboard = ({
               height={40}
               width={40}
             />
-            <p className="text-2xl font-medium">{sunrise}</p>
+            <p className="text-3xl font-medium">{sunrise}</p>
           </div>
-          <div className="flex flex-row space-x-4 items-center">
+          <div className="justify-center flex flex-row space-x-4 items-center">
             <Image
               priority
               src="/night.svg"
@@ -223,11 +223,11 @@ const WeatherDashboard = ({
               height={40}
               width={40}
             />
-            <p className="text-2xl font-medium">{sunset}</p>
+            <p className="text-3xl font-medium">{sunset}</p>
           </div>
         </div>
 
-        <div className="bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
+        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
           <Image
             priority
             src="/humidity.svg"
@@ -246,7 +246,7 @@ const WeatherDashboard = ({
           </div>
         </div>
 
-        <div className="bg-neutral-900 py-4 row-span-2 px-4 rounded-xl text-lg font-semibold flex flex-col">
+        <div className="shadow-2xl  bg-neutral-900 py-4 row-span-2 px-4 rounded-xl text-lg font-semibold flex flex-col">
           <h1 className="text-center text-xl font-mono font-bold">UV INDEX</h1>
           <ResponsiveContainer height={150}>
             <PieChart>
@@ -295,7 +295,7 @@ const WeatherDashboard = ({
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
+        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
           <Image
             priority
             src="/ThumbsUp.png"
@@ -367,7 +367,7 @@ export default function Home() {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <main className=" text-white">
-        <div className="flex space-y-4 flex-col h-screen justify-center items-center mt-8">
+        <div className="flex space-y-4 flex-col justify-center items-center mt-8">
           <form method="post" onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-4">
               <label className="text-center text-4xl font-mono font-bold">
