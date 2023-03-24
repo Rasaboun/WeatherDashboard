@@ -65,14 +65,14 @@ const CityTable = ({
   setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>;
 }) => {
   return (
-    <div className="rounded-lg  shadow-2xl bg-neutral-900">
-      <table className="table-auto my-5">
+    <div className="">
+      <table className="rounded-lg  shadow-2xl bg-neutral-900 table-auto my-5 mx-2">
         <thead>
           <tr className="text-gray-300 font-bold text-lg uppercase">
             <th>Country</th>
             <th>latitude</th>
             <th>longitude</th>
-            <th>timezone</th>
+            <th className="hidden md:table-cell">timezone</th>
           </tr>
         </thead>
         <tbody>
@@ -93,7 +93,9 @@ const CityTable = ({
               <td className="px-6 py-4">{geoData.country}</td>
               <td className="px-6 py-4">{geoData.latitude}</td>
               <td className="px-6 py-4">{geoData.longitude}</td>
-              <td className="px-6 py-4">{geoData.timezone}</td>
+              <td className="px-6 py-4 hidden md:table-cell">
+                {geoData.timezone}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -170,48 +172,47 @@ const WeatherDashboard = ({
       );
     }
   }
- 
+
   let colorchoose: string = "#ffffff";
-  if (weatherData?.daily.uv_index_max[0])
-  {
-    switch (true)
-    {
-      case (weatherData.daily.uv_index_max[0] <= 2):
-        colorchoose = "#a6c33e"
+  if (weatherData?.daily.uv_index_max[0]) {
+    switch (true) {
+      case weatherData.daily.uv_index_max[0] <= 2:
+        colorchoose = "#a6c33e";
         break;
-      case (weatherData.daily.uv_index_max[0] <= 5):
-        colorchoose = "#f5bc41"
+      case weatherData.daily.uv_index_max[0] <= 5:
+        colorchoose = "#f5bc41";
         break;
-      case (weatherData.daily.uv_index_max[0] < 7):
-        colorchoose = "#f19436"
+      case weatherData.daily.uv_index_max[0] < 7:
+        colorchoose = "#f19436";
         break;
-      case (weatherData.daily.uv_index_max[0] < 10):
-        colorchoose = "#e45b37"
+      case weatherData.daily.uv_index_max[0] < 10:
+        colorchoose = "#e45b37";
         break;
-      case (weatherData.daily.uv_index_max[0] >= 11):
-        colorchoose = "#9350c4"
+      case weatherData.daily.uv_index_max[0] >= 11:
+        colorchoose = "#9350c4";
         break;
       default:
-        colorchoose = "#ffffff"
+        colorchoose = "#ffffff";
         break;
     }
   }
-
-
 
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
         <div className="flex flex-col space-y-10 col-span-full  row-span-2">
           <h1 className="font-bold text-4xl">This Week</h1>
-          <div className="shadow-2xl  overflow-auto bg-neutral-900 rounded-xl p-6 flex flex-row space-x-3">
-            {weatherDaily}
+          <div className="bg-neutral-900 rounded-xl p-3">
+            <div className="overflow-auto flex flex-row space-x-3">
+              {weatherDaily}
+            </div>
           </div>
         </div>
         <h1 className=" col-span-full  row-span-2 font-bold text-4xl">Today</h1>
-        <div className="place-content-center shadow-2xl align-middle overflow-auto bg-neutral-900 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
+        <div className="place-content-center shadow-2xl align-middle overflow-auto bg-neutral-900 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">
           <h1 className=" text-xl font-mono font-bold">Sunrise & Sunset</h1>
-          <div className="justify-center flex flex-row space-x-4 items-center">
+          <div className="flex flex-col space-y-2">
+          <div className="justify-center flex flex-row space-x-2 items-center">
             <Image
               priority
               src="/sunny.svg"
@@ -219,9 +220,9 @@ const WeatherDashboard = ({
               height={40}
               width={40}
             />
-            <p className="text-3xl font-medium">{sunrise}</p>
+            <p className="font-medium text-lg">{sunrise}</p>
           </div>
-          <div className="justify-center flex flex-row space-x-4 items-center">
+          <div className="justify-center flex flex-row space-x-2 items-center">
             <Image
               priority
               src="/night.svg"
@@ -229,32 +230,29 @@ const WeatherDashboard = ({
               height={40}
               width={40}
             />
-            <p className="text-3xl font-medium">{sunset}</p>
+            <p className="text-lg font-medium">{sunset}</p>
           </div>
         </div>
-
-        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
-          <Image
-            priority
-            src="/humidity.svg"
-            alt="Humidity Icon"
-            height={72}
-            width={72}
-          />
-          <div className="flex flex-col text-center">
-            <h1 className="text-center text-xl font-mono font-bold">
-              Humidity
-            </h1>
-
-            <p className="text-3xl font-medium">
+        </div>
+        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+          <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
+          <div className="justify-center flex flex-row space-x-2 items-center">
+            <Image
+              priority
+              src="/humidity.svg"
+              alt="Humidity Icon"
+              height={42}
+              width={42}
+            />
+            <p className="text-lg font-medium">
               {weatherData?.hourly.relativehumidity_2m[0].toString() + " %"}
             </p>
           </div>
         </div>
 
         <div className="shadow-2xl  bg-neutral-900 py-4 row-span-1 px-4 rounded-xl text-lg font-semibold flex flex-col justify-center items-center">
-          <h1 className="text-center text-xl font-mono font-bold">UV INDEX</h1>
-          <div className="flex flex-row space-x-2">
+          <h1 className="text-center text-xl font-mono font-bold">UV Index</h1>
+          <div className="justify-center flex flex-row space-x-2 items-center">
             <svg
               width="42"
               height="42"
@@ -263,8 +261,8 @@ const WeatherDashboard = ({
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M15 5V2H17V5H15ZM20.634 5.97381L22.134 3.37573L23.8661 4.37573L22.3661 6.97381L20.634 5.97381ZM16 23C19.866 23 23 19.866 23 16C23 12.134 19.866 9 16 9C12.134 9 9 12.134 9 16C9 19.866 12.134 23 16 23ZM16 25C20.9706 25 25 20.9706 25 16C25 11.0294 20.9706 7 16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25ZM27 15H30V17H27V15ZM27.6243 8.13397L25.0263 9.63397L26.0263 11.366L28.6243 9.86603L27.6243 8.13397ZM8.13397 4.37573L9.63397 6.97381L11.366 5.97381L9.86603 3.37573L8.13397 4.37573ZM5.97375 11.366L3.37567 9.86603L4.37567 8.13397L6.97375 9.63397L5.97375 11.366ZM15 27V30H17V27H15ZM5 15H2V17H5V15ZM3.37562 22.134L5.97369 20.634L6.97369 22.366L4.37562 23.866L3.37562 22.134ZM9.63404 25.0264L8.13404 27.6244L9.86609 28.6244L11.3661 26.0264L9.63404 25.0264ZM22.134 28.6244L20.634 26.0264L22.366 25.0264L23.866 27.6244L22.134 28.6244ZM25.0263 22.366L27.6244 23.866L28.6244 22.134L26.0263 20.634L25.0263 22.366Z"
                 fill="url(#paint0_linear_9_803)"
               />
@@ -277,30 +275,32 @@ const WeatherDashboard = ({
                   y2="30"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#ffffff" />
-                  <stop offset="1" stop-color={colorchoose} />
+                  <stop stopColor="#ffffff" />
+                  <stop offset="1" stopColor={colorchoose} />
                 </linearGradient>
               </defs>
             </svg>
-            <p className="font-semibold text-3xl">
+            <p className="font-semibold text-lg">
               {weatherData?.daily.uv_index_max[0]}
             </p>
           </div>
         </div>
-        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
-          <Image
-            priority
-            src="/ThumbsUp.png"
-            alt="Humidity Icon"
-            height={50}
-            width={55}
-          />
-          <div className="flex flex-col text-center">
-            <h1 className="text-center text-xl font-mono font-bold">
+        <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <h1 className="text-center text-xl font-mono font-bold">
               Visibility
             </h1>
+          
+          <div className="justify-center flex flex-row space-x-2 items-center">
+          <Image
+            priority
+            src="/visibility.svg"
+            alt="visibility Icon"
+            height={32}
+            width={32}
+            
+          />
 
-            <p className="text-3xl font-medium">
+            <p className="text-lg font-medium">
               {weatherData?.hourly.visibility[0]
                 ? (weatherData.hourly.visibility[0] / 1000).toString() + " km"
                 : ""}
