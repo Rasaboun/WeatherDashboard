@@ -14,6 +14,8 @@ import {
   YAxis,
   XAxis,
   Tooltip,
+  LineChart,
+  Line,
   Area,
   RadialBarChart,
   RadialBar,
@@ -37,6 +39,8 @@ type WeatherData = {
   hourly: {
     relativehumidity_2m: number[];
     visibility: number[];
+    temperature_2m: number[];
+    time: string[];
   };
 };
 
@@ -52,6 +56,20 @@ type GeoData = {
 type ResultsGeo = {
   results: GeoData[];
 };
+
+
+const CustomTooltip = ({ active, payload, label } : any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div >
+        <p>{`${payload[0].value} °C`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 
 const CityTable = ({
   city,
@@ -110,7 +128,7 @@ const getData = async (
   setWeatherData: React.Dispatch<React.SetStateAction<WeatherData | null>>
 ) => {
   const res = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&hourly=relativehumidity_2m,visibility&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&hourly=relativehumidity_2m,temperature_2m,visibility&timezone=auto`
   );
   const weatherData: WeatherData = await res.json();
   if (!weatherData) {
@@ -197,6 +215,23 @@ const WeatherDashboard = ({
     }
   }
 
+  type temperatureDataType = {
+    time: number;
+    temperature: number;
+  };
+
+  let temperatureData = [];
+
+  if (weatherData) {
+    for (let i = 0; i < 24; i++) {
+      let tmp: temperatureDataType = {
+        time: new Date(weatherData.hourly.time[i]).getHours(),
+        temperature: weatherData.hourly.temperature_2m[i],
+      };
+      temperatureData.push(tmp);
+    }
+  }
+
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
@@ -212,27 +247,27 @@ const WeatherDashboard = ({
         <div className="place-content-center shadow-2xl align-middle overflow-auto bg-neutral-900 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">
           <h1 className=" text-xl font-mono font-bold">Sunrise & Sunset</h1>
           <div className="flex flex-col space-y-2">
-          <div className="justify-center flex flex-row space-x-2 items-center">
-            <Image
-              priority
-              src="/sunny.svg"
-              alt="Sunny Icon"
-              height={40}
-              width={40}
-            />
-            <p className="font-medium text-lg">{sunrise}</p>
+            <div className="justify-center flex flex-row space-x-2 items-center">
+              <Image
+                priority
+                src="/sunny.svg"
+                alt="Sunny Icon"
+                height={40}
+                width={40}
+              />
+              <p className="font-medium text-lg">{sunrise}</p>
+            </div>
+            <div className="justify-center flex flex-row space-x-2 items-center">
+              <Image
+                priority
+                src="/night.svg"
+                alt="night Icon"
+                height={40}
+                width={40}
+              />
+              <p className="text-lg font-medium">{sunset}</p>
+            </div>
           </div>
-          <div className="justify-center flex flex-row space-x-2 items-center">
-            <Image
-              priority
-              src="/night.svg"
-              alt="night Icon"
-              height={40}
-              width={40}
-            />
-            <p className="text-lg font-medium">{sunset}</p>
-          </div>
-        </div>
         </div>
         <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
@@ -286,19 +321,18 @@ const WeatherDashboard = ({
           </div>
         </div>
         <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-        <h1 className="text-center text-xl font-mono font-bold">
-              Visibility
-            </h1>
-          
+          <h1 className="text-center text-xl font-mono font-bold">
+            Visibility
+          </h1>
+
           <div className="justify-center flex flex-row space-x-2 items-center">
-          <Image
-            priority
-            src="/visibility.svg"
-            alt="visibility Icon"
-            height={32}
-            width={32}
-            
-          />
+            <Image
+              priority
+              src="/visibility.svg"
+              alt="visibility Icon"
+              height={32}
+              width={32}
+            />
 
             <p className="text-lg font-medium">
               {weatherData?.hourly.visibility[0]
@@ -307,7 +341,22 @@ const WeatherDashboard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl row-span-4 col-span-2 bg-neutral-900 rounded-xl justify-center content-center"></div>
+        <div className="shadow-2xl row-span-4 col-span-2 bg-neutral-900 rounded-xl justify-center content-center">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={temperatureData}>
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#ffedd5" stopOpacity={0.2} />
+                  <stop offset="80%" stopColor="#ffedd5" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="time" />
+              <YAxis unit="°C"/>
+              <Tooltip content={<CustomTooltip/>}/>
+              <Area type="monotone" dataKey="temperature" stroke="#fcd34d" fillOpacity={1} fill="url(#colorUv)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </>
   );
