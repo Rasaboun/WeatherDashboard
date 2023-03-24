@@ -10,17 +10,15 @@ import {
   Sector,
   Cell,
   Label,
+  AreaChart,
+  YAxis,
+  XAxis,
+  Tooltip,
+  Area,
+  RadialBarChart,
+  RadialBar,
+  PolarAngleAxis,
 } from "recharts";
-
-const data = [
-  { name: "1", value: 1 },
-  { name: "3", value: 1 },
-  { name: "6", value: 1 },
-  { name: "8", value: 1 },
-  { name: "11", value: 1 },
-];
-
-const COLORS = ["#22c55e", "#f97316", "#c2410c", "#b91c1c", "#5b21b6"];
 
 type WeatherData = {
   latitude: number;
@@ -172,28 +170,38 @@ const WeatherDashboard = ({
       );
     }
   }
-  const datas = [
-    { value: 0 },
-
-    { value: weatherData?.daily.uv_index_max[0] },
-    { value: 6 },
-    { value: 8 },
-    { value: 11 },
-  ];
-  let uvindex: number = 0;
-  let colorchoose: string = "none";
-
-  if (weatherData?.daily.uv_index_max[0]) {
-    uvindex = 180 - (weatherData.daily.uv_index_max[0] / 11) * 180;
+ 
+  let colorchoose: string = "#ffffff";
+  if (weatherData?.daily.uv_index_max[0])
+  {
+    switch (true)
+    {
+      case (weatherData.daily.uv_index_max[0] <= 2):
+        colorchoose = "#a6c33e"
+        break;
+      case (weatherData.daily.uv_index_max[0] <= 5):
+        colorchoose = "#f5bc41"
+        break;
+      case (weatherData.daily.uv_index_max[0] < 7):
+        colorchoose = "#f19436"
+        break;
+      case (weatherData.daily.uv_index_max[0] < 10):
+        colorchoose = "#e45b37"
+        break;
+      case (weatherData.daily.uv_index_max[0] >= 11):
+        colorchoose = "#9350c4"
+        break;
+      default:
+        colorchoose = "#ffffff"
+        break;
+    }
   }
 
-  let renderLabel = function (data: { name: string; value: number }) {
-    return data.name;
-  };
+
 
   return (
     <>
-      <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
         <div className="flex flex-col space-y-10 col-span-full  row-span-2">
           <h1 className="font-bold text-4xl">This Week</h1>
           <div className="shadow-2xl  overflow-auto bg-neutral-900 rounded-xl p-6 flex flex-row space-x-3">
@@ -202,9 +210,7 @@ const WeatherDashboard = ({
         </div>
         <h1 className=" col-span-full  row-span-2 font-bold text-4xl">Today</h1>
         <div className="place-content-center shadow-2xl align-middle overflow-auto bg-neutral-900 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-3 text-center ">
-          <h1 className=" text-xl font-mono font-bold">
-            Sunrise & Sunset
-          </h1>
+          <h1 className=" text-xl font-mono font-bold">Sunrise & Sunset</h1>
           <div className="justify-center flex flex-row space-x-4 items-center">
             <Image
               priority
@@ -246,62 +252,48 @@ const WeatherDashboard = ({
           </div>
         </div>
 
-        <div className="shadow-2xl  bg-neutral-900 py-4 row-span-2 px-4 rounded-xl text-lg font-semibold flex flex-col">
+        <div className="shadow-2xl  bg-neutral-900 py-4 row-span-1 px-4 rounded-xl text-lg font-semibold flex flex-col justify-center items-center">
           <h1 className="text-center text-xl font-mono font-bold">UV INDEX</h1>
-          <ResponsiveContainer height={150}>
-            <PieChart>
-              <Pie
-                data={data}
-                cy="95%"
-                startAngle={180}
-                endAngle={0}
-                innerRadius={62}
-                outerRadius={75}
-                fill="#8884d8"
-                stroke="none"
-                dataKey="value"
-                nameKey="index"
-                label={renderLabel}
-                labelLine={false}
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Pie
-                data={datas}
-                cy="95%"
-                startAngle={180}
-                endAngle={uvindex}
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                stroke="none"
-                dataKey="value"
-              >
-                {datas.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill="#facc15" />
-                ))}
-
-                <Label
-                  className="font-mono fill-white"
-                  value={weatherData?.daily.uv_index_max[0]}
-                  position="center"
-                />
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <div className="flex flex-row space-x-2">
+            <svg
+              width="42"
+              height="42"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M15 5V2H17V5H15ZM20.634 5.97381L22.134 3.37573L23.8661 4.37573L22.3661 6.97381L20.634 5.97381ZM16 23C19.866 23 23 19.866 23 16C23 12.134 19.866 9 16 9C12.134 9 9 12.134 9 16C9 19.866 12.134 23 16 23ZM16 25C20.9706 25 25 20.9706 25 16C25 11.0294 20.9706 7 16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25ZM27 15H30V17H27V15ZM27.6243 8.13397L25.0263 9.63397L26.0263 11.366L28.6243 9.86603L27.6243 8.13397ZM8.13397 4.37573L9.63397 6.97381L11.366 5.97381L9.86603 3.37573L8.13397 4.37573ZM5.97375 11.366L3.37567 9.86603L4.37567 8.13397L6.97375 9.63397L5.97375 11.366ZM15 27V30H17V27H15ZM5 15H2V17H5V15ZM3.37562 22.134L5.97369 20.634L6.97369 22.366L4.37562 23.866L3.37562 22.134ZM9.63404 25.0264L8.13404 27.6244L9.86609 28.6244L11.3661 26.0264L9.63404 25.0264ZM22.134 28.6244L20.634 26.0264L22.366 25.0264L23.866 27.6244L22.134 28.6244ZM25.0263 22.366L27.6244 23.866L28.6244 22.134L26.0263 20.634L25.0263 22.366Z"
+                fill="url(#paint0_linear_9_803)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_9_803"
+                  x1="16"
+                  y1="2"
+                  x2="16"
+                  y2="30"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#ffffff" />
+                  <stop offset="1" stop-color={colorchoose} />
+                </linearGradient>
+              </defs>
+            </svg>
+            <p className="font-semibold text-3xl">
+              {weatherData?.daily.uv_index_max[0]}
+            </p>
+          </div>
         </div>
         <div className="shadow-2xl  bg-neutral-900 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-row space-y-1">
           <Image
             priority
             src="/ThumbsUp.png"
             alt="Humidity Icon"
-            height={62}
-            width={62}
+            height={50}
+            width={55}
           />
           <div className="flex flex-col text-center">
             <h1 className="text-center text-xl font-mono font-bold">
@@ -315,6 +307,7 @@ const WeatherDashboard = ({
             </p>
           </div>
         </div>
+        <div className="shadow-2xl row-span-4 col-span-2 bg-neutral-900 rounded-xl justify-center content-center"></div>
       </div>
     </>
   );
@@ -337,6 +330,7 @@ export default function Home() {
       `https://geocoding-api.open-meteo.com/v1/search?name=${form.City.value}`
     );
     const resultsGeo: ResultsGeo = await res.json();
+    console.log(resultsGeo);
     if (resultsGeo) setResultsGeo(resultsGeo);
     else setResultsGeo(null);
   }
@@ -399,7 +393,8 @@ export default function Home() {
               </div>
             </div>
           </form>
-          {resultsGeo && (
+
+          {resultsGeo?.results && (
             <CityTable
               city={resultsGeo}
               setGeoData={setGeoData}
