@@ -105,6 +105,34 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const chooseSVG = (weatherCode: number) =>  {
+
+  let svgchoose: string = "#ffffff";
+    switch (true) {
+      case weatherCode == 0:
+        svgchoose = "/sunny.svg";
+        break;
+      case weatherCode >= 1 && weatherCode <= 3:
+        svgchoose = "/partly-cloudy.svg";
+        break;
+      case weatherCode == 45 || weatherCode == 48:
+        svgchoose = "#f19436";
+        break;
+      case weatherCode < 10:
+        svgchoose = "#e45b37";
+        break;
+      case weatherCode >= 11:
+        svgchoose = "#9350c4";
+        break;
+      default:
+        svgchoose = "#ffffff";
+        break;
+    }
+
+  return ("/sunny.svg")
+}
+
+
 const CityTable = ({
   city,
   setResultsGeo,
@@ -191,8 +219,8 @@ const WeatherDashboard = ({
       let day = date.getDay();
       weatherDaily.push(
         <div
-          key={i}
-          className="items-center bg-sky-800 rounded-lg w-fit flex flex-col p-2 space-y-2"
+          key={i.toString() + "weekDay"}
+          className="items-center bg-sky-800 rounded-lg w-fit flex flex-col p-2 space-y-2 "
         >
           <h1 className="text-center text-xl font-mono font-bold">
             {todayDate.getDay() === day ? "Today" : dayDef[day]}
@@ -218,7 +246,6 @@ const WeatherDashboard = ({
   }
 
   let colorchoose: string = "#ffffff";
-  console.log(weatherData?.hourly.uv_index[0].toString())
   if (weatherData?.hourly.uv_index[todayDate.getHours()]) {
     switch (true) {
       case weatherData.hourly.uv_index[todayDate.getHours()] <= 2:
@@ -241,6 +268,25 @@ const WeatherDashboard = ({
         break;
     }
   }
+
+
+  type temperatureDataType = {
+    time: number;
+    temperature: number;
+  };
+
+  let temperatureData = [];
+
+  if (weatherData) {
+    for (let i = 0; i < 24; i++) {
+      let tmp: temperatureDataType = {
+        time: new Date(weatherData.hourly.time[i]).getHours(),
+        temperature: weatherData.hourly.temperature_2m[i],
+      };
+      temperatureData.push(tmp);
+    }
+  }
+
   let colorAir: string = "#ffffff"
   if (airData?.hourly.european_aqi[todayDate.getHours()]) {
     switch (true) {
@@ -265,23 +311,6 @@ const WeatherDashboard = ({
     }
   }
 
-  type temperatureDataType = {
-    time: number;
-    temperature: number;
-  };
-
-  let temperatureData = [];
-
-  if (weatherData) {
-    for (let i = 0; i < 24; i++) {
-      let tmp: temperatureDataType = {
-        time: new Date(weatherData.hourly.time[i]).getHours(),
-        temperature: weatherData.hourly.temperature_2m[i],
-      };
-      temperatureData.push(tmp);
-    }
-  }
-
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
@@ -290,7 +319,7 @@ const WeatherDashboard = ({
             This Week
           </h1>
           <div className="bg-sky-300 shadow-2xl rounded-xl p-3">
-            <div className="overflow-auto  flex flex-row space-x-3">
+            <div className="overflow-auto flex flex-row justify-between space-x-3">
               {weatherDaily}
             </div>
           </div>
