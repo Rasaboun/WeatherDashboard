@@ -218,6 +218,7 @@ const WeatherDashboard = ({
   }
 
   let colorchoose: string = "#ffffff";
+  console.log(weatherData?.hourly.uv_index[0].toString())
   if (weatherData?.hourly.uv_index[todayDate.getHours()]) {
     switch (true) {
       case weatherData.hourly.uv_index[todayDate.getHours()] <= 2:
@@ -419,16 +420,11 @@ const WeatherDashboard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl row-span-3 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="shadow-2xl row-span-2 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
+          <ResponsiveContainer width="100%" height={242}>
             <AreaChart
               data={temperatureData}
-              margin={{
-                top: 20,
-                right: 20,
-                left: 20,
-                bottom: 20,
-              }}
+              
             >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -525,33 +521,42 @@ const WeatherDashboard = ({
 };
 
 export default function Home({ data }: { data: Data }) {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(
-    data.weatherData
+  const [allData, setAllData] = useState<Data>(
+    data
   );
 
+ 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
     // Read the form data
     const form = e.currentTarget;
 
+    let weatherDatas: WeatherData | null = null;
+    let data: Data = {
+      weatherData: null,
+      airData: null,
+    };
     const res = await fetch(
       `https://geocoding-api.open-meteo.com/v1/search?name=${form.City.value}`
     );
     const resultsGeo: ResultsGeo = await res.json();
-    if (resultsGeo) {
+    if (resultsGeo.results) {
       let lat = resultsGeo.results[0].latitude;
       let long = resultsGeo.results[0].longitude;
       const res = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,windspeed_10m_max,temperature_2m_min,sunrise,sunset,uv_index_max,weathercode&hourly=relativehumidity_2m,apparent_temperature,temperature_2m,visibility&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
       );
-      const weatherData: WeatherData = await res.json();
-      if (!weatherData) {
-        setWeatherData(null);
-        return;
-      }
-      setWeatherData(weatherData);
-    }
+  
+      const rest = await fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
+      );
+      weatherDatas = await res.json();
+      const airDatas: AirData = await rest.json();
+      data.airData = airDatas;
+      data.weatherData = weatherDatas;
+      setAllData(data)
+  }
   }
   return (
     <>
@@ -611,10 +616,10 @@ export default function Home({ data }: { data: Data }) {
             </div>
           </form>
 
-          {weatherData && (
+          {allData.weatherData && (
             <WeatherDashboard
-              weatherData={weatherData}
-              airData={data.airData}
+              weatherData={allData.weatherData}
+              airData={allData.airData}
             />
           )}
         </div>
