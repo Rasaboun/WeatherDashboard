@@ -288,8 +288,8 @@ const WeatherDashboard = ({
           <h1 className="font-bold text-4xl font-sans text-sky-900">
             This Week
           </h1>
-          <div className="bg-sky-300 rounded-xl p-3">
-            <div className="overflow-auto	 flex flex-row space-x-3">
+          <div className="bg-sky-300 shadow-2xl rounded-xl p-3">
+            <div className="overflow-auto  flex flex-row space-x-3">
               {weatherDaily}
             </div>
           </div>
@@ -419,7 +419,7 @@ const WeatherDashboard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl row-span-2 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
+        <div className="shadow-2xl row-span-3 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={temperatureData}
