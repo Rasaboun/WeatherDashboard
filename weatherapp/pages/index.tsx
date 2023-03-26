@@ -105,46 +105,44 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const chooseSVG = (weatherCode: number) =>  {
-
+const chooseSVG = (weatherCode: number) => {
   let svgchoose: string = "/sunny.svg";
-    switch (true) {
-      case weatherCode == 0:
-        svgchoose = "/sunny.svg";
-        break;
-      case weatherCode >= 1 && weatherCode <= 3:
-        svgchoose = "/partly-cloudy.svg";
-        break;
-      case weatherCode == 45 || weatherCode == 48:
-        svgchoose = "/fog.svg";
-        break;
-      case weatherCode >= 51 && weatherCode <= 55:
-        svgchoose = "/drizzle.svg";
-        break;
-      case weatherCode >= 95 && weatherCode <= 99:
-        svgchoose = "/severthunder.svg";
-        break;
-      case weatherCode >= 61 && weatherCode <= 67:
-        svgchoose = "/rain.svg";
-        break;
-      case weatherCode >= 71 && weatherCode <= 77:
-        svgchoose = "/snow.svg";
-        break;
-      case weatherCode >= 80 && weatherCode <= 82:
-        svgchoose = "/rain.svg";
-        break;
-      case weatherCode >= 85 && weatherCode <= 86:
-        svgchoose = "/snow.svg";
-        break;
+  switch (true) {
+    case weatherCode == 0:
+      svgchoose = "/sunny.svg";
+      break;
+    case weatherCode >= 1 && weatherCode <= 3:
+      svgchoose = "/partly-cloudy.svg";
+      break;
+    case weatherCode == 45 || weatherCode == 48:
+      svgchoose = "/fog.svg";
+      break;
+    case weatherCode >= 51 && weatherCode <= 55:
+      svgchoose = "/drizzle.svg";
+      break;
+    case weatherCode >= 95 && weatherCode <= 99:
+      svgchoose = "/severthunder.svg";
+      break;
+    case weatherCode >= 61 && weatherCode <= 67:
+      svgchoose = "/rain.svg";
+      break;
+    case weatherCode >= 71 && weatherCode <= 77:
+      svgchoose = "/snow.svg";
+      break;
+    case weatherCode >= 80 && weatherCode <= 82:
+      svgchoose = "/rain.svg";
+      break;
+    case weatherCode >= 85 && weatherCode <= 86:
+      svgchoose = "/snow.svg";
+      break;
 
-      default:
-        svgchoose = "/sunny.svg";
-        break;
-    }
+    default:
+      svgchoose = "/sunny.svg";
+      break;
+  }
 
-  return (svgchoose)
-}
-
+  return svgchoose;
+};
 
 const CityTable = ({
   city,
@@ -282,7 +280,6 @@ const WeatherDashboard = ({
     }
   }
 
-
   type temperatureDataType = {
     time: number;
     temperature: number;
@@ -300,7 +297,7 @@ const WeatherDashboard = ({
     }
   }
 
-  let colorAir: string = "#ffffff"
+  let colorAir: string = "#ffffff";
   if (airData?.hourly.european_aqi[todayDate.getHours()]) {
     switch (true) {
       case airData.hourly.european_aqi[todayDate.getHours()] <= 20:
@@ -464,10 +461,7 @@ const WeatherDashboard = ({
         </div>
         <div className="shadow-2xl row-span-2 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
           <ResponsiveContainer width="100%" height={242}>
-            <AreaChart
-              data={temperatureData}
-              
-            >
+            <AreaChart data={temperatureData}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#0284c7" stopOpacity={0.2} />
@@ -563,11 +557,9 @@ const WeatherDashboard = ({
 };
 
 export default function Home({ data }: { data: Data }) {
-  const [allData, setAllData] = useState<Data>(
-    data
-  );
+  const [allData, setAllData] = useState<Data>(data);
+  const [validColor, setValidColor] = useState<string>("bg-sky-200");
 
- 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
@@ -589,7 +581,7 @@ export default function Home({ data }: { data: Data }) {
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
       );
-  
+
       const rest = await fetch(
         `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
       );
@@ -597,8 +589,10 @@ export default function Home({ data }: { data: Data }) {
       const airDatas: AirData = await rest.json();
       data.airData = airDatas;
       data.weatherData = weatherDatas;
-      setAllData(data)
-  }
+      setValidColor("bg-sky-200");
+      setAllData(data);
+    } else setValidColor("border border-red-600 bg-red-100");
+    
   }
   return (
     <>
@@ -634,7 +628,7 @@ export default function Home({ data }: { data: Data }) {
               </label>
               <div className="flex flex-row space-x-1">
                 <input
-                  className="text-sky-900 font-semibold rounded-lg px-2 py-1 bg-sky-200"
+                  className={`text-sky-900 ${validColor} font-semibold rounded-lg px-2 py-1 `}
                   name="City"
                   defaultValue="Paris"
                   type="text"
@@ -645,7 +639,7 @@ export default function Home({ data }: { data: Data }) {
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="3"
-                    className="w-6 h-6 stroke-sky-200"
+                    className="w-6 h-6 stroke-sky-200 "
                   >
                     <path
                       strokeLinecap="round"
