@@ -107,7 +107,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const chooseSVG = (weatherCode: number) =>  {
 
-  let svgchoose: string = "#ffffff";
+  let svgchoose: string = "/sunny.svg";
     switch (true) {
       case weatherCode == 0:
         svgchoose = "/sunny.svg";
@@ -116,20 +116,33 @@ const chooseSVG = (weatherCode: number) =>  {
         svgchoose = "/partly-cloudy.svg";
         break;
       case weatherCode == 45 || weatherCode == 48:
-        svgchoose = "#f19436";
+        svgchoose = "/fog.svg";
         break;
-      case weatherCode < 10:
-        svgchoose = "#e45b37";
+      case weatherCode >= 51 && weatherCode <= 55:
+        svgchoose = "/drizzle.svg";
         break;
-      case weatherCode >= 11:
-        svgchoose = "#9350c4";
+      case weatherCode >= 95 && weatherCode <= 99:
+        svgchoose = "/severthunder.svg";
         break;
+      case weatherCode >= 61 && weatherCode <= 67:
+        svgchoose = "/rain.svg";
+        break;
+      case weatherCode >= 71 && weatherCode <= 77:
+        svgchoose = "/snow.svg";
+        break;
+      case weatherCode >= 80 && weatherCode <= 82:
+        svgchoose = "/rain.svg";
+        break;
+      case weatherCode >= 85 && weatherCode <= 86:
+        svgchoose = "/snow.svg";
+        break;
+
       default:
-        svgchoose = "#ffffff";
+        svgchoose = "/sunny.svg";
         break;
     }
 
-  return ("/sunny.svg")
+  return (svgchoose)
 }
 
 
@@ -227,7 +240,7 @@ const WeatherDashboard = ({
           </h1>
           <Image
             priority
-            src="/nuage.svg"
+            src={chooseSVG(weatherData?.daily.weathercode[i])}
             alt="nuage Icon"
             height={40}
             width={40}
