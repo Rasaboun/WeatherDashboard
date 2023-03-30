@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherData } from "@/components/type/WeatherType";
+import { WeatherData } from "components/type/WeatherType";
 
 export const WeekDashBoard = ({
   weatherData,
@@ -17,7 +17,7 @@ export const WeekDashBoard = ({
       weatherDaily.push(
         <div
           key={i.toString() + "weekDay"}
-          className="items-center bg-sky-800 rounded-lg w-fit flex flex-col p-2 space-y-2 "
+          className="items-center bg-sky-700 rounded-lg w-fit flex flex-col p-2 space-y-2 "
         >
           <h1 className="text-center text-xl font-mono font-bold">
             {todayDate.getDay() === day ? "Today" : dayDef[day]}

@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { GetStaticProps } from "next";
-import { WeekDashBoard } from "@/components/WeekDashBoard";
-import { TodayDashBoard } from "@/components/TodayDashBoard";
+import { WeekDashBoard } from "components/WeekDashBoard";
+import { TodayDashBoard } from "components/TodayDashBoard";
 import {
   WeatherData,
   AirData,
   Data,
   ResultsGeo,
-} from "@/components/type/WeatherType";
+} from "components/type/WeatherType";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   let weatherDatas: WeatherData | undefined = undefined;
@@ -150,12 +150,13 @@ export default function Home({ data }: { data: Data }) {
               </label>
               <div className="flex flex-row space-x-1">
                 <input
-                  className={`text-sky-900 ${validColor} font-semibold rounded-lg px-2 py-1 `}
+                  className={`text-sky-900 ${validColor} font-bold rounded-lg px-3 py-2 placeholder-sky-700`}
                   name="City"
                   defaultValue="Paris"
                   type="text"
+                  placeholder="Search City"
                 />
-                <button type="submit">
+                <button type="submit" aria-label="Search City">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

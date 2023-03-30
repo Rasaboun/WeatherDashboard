@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherData, AirData, temperatureDataType } from "@/components/type/WeatherType";
+import { WeatherData, AirData, temperatureDataType } from "components/type/WeatherType";
 import {
 	ResponsiveContainer,
 	AreaChart,
@@ -43,7 +43,7 @@ export  const TodayDashBoard = ({
 		 <h1 className=" col-span-full  row-span-2 font-bold text-4xl font-sans text-sky-900">
           Today
         </h1>
-        <div className="place-content-center shadow-2xl align-middle overflow-auto bg-sky-300 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">
+        <div className="place-content-center shadow-2xl align-middle overflow-auto bg-sky-700 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">
           <h1 className=" text-xl font-mono font-bold ">Sunrise & Sunset</h1>
           <div className="flex flex-col space-y-2">
             <div className="justify-center flex flex-row space-x-2 items-center">
@@ -68,7 +68,7 @@ export  const TodayDashBoard = ({
             </div>
           </div>
         </div>
-        <div className="shadow-2xl  bg-sky-300 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
             <Image
@@ -86,7 +86,7 @@ export  const TodayDashBoard = ({
           </div>
         </div>
 
-        <div className="shadow-2xl  bg-sky-300 py-4 row-span-1 px-4 rounded-xl text-lg font-semibold flex flex-col justify-center items-center">
+        <div className="shadow-2xl  bg-sky-700 py-4 row-span-1 px-4 rounded-xl text-lg font-semibold flex flex-col justify-center items-center">
           <h1 className="text-center text-xl font-mono font-bold">UV Index</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
             <svg
@@ -121,7 +121,7 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl  bg-sky-300 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">
             Visibility
           </h1>
@@ -144,7 +144,7 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl  bg-sky-300 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">WindSpeed</h1>
 
           <div className="justify-center flex flex-row space-x-2 items-center">
@@ -165,12 +165,12 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl row-span-2 col-span-2 bg-sky-300 rounded-xl justify-center content-center">
+        <div className="shadow-2xl row-span-2 col-span-2 bg-sky-700 rounded-xl justify-center content-center">
           <ResponsiveContainer width="100%" height={242}>
             <AreaChart data={temperatureData}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0284c7" stopOpacity={0.2} />
+                  <stop offset="5%" stopColor="#ffffff" stopOpacity={0.2} />
                   <stop offset="80%" stopColor="#0284c7" stopOpacity={0} />
                 </linearGradient>
               </defs>
@@ -181,6 +181,7 @@ export  const TodayDashBoard = ({
                 type="monotone"
                 dataKey="temperature"
                 stroke="#0c4a6e"
+                strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorUv)"
               />
@@ -188,7 +189,7 @@ export  const TodayDashBoard = ({
           </ResponsiveContainer>
         </div>
 
-        <div className="shadow-2xl  bg-sky-300 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">
             Fells Like
           </h1>
@@ -232,7 +233,7 @@ export  const TodayDashBoard = ({
           </div>
         </div>
 
-        <div className="shadow-2xl  bg-sky-300 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">
             Air Quality
           </h1>
