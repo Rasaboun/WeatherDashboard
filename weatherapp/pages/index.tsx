@@ -162,7 +162,7 @@ export default function Home({ data }: { data: Data }) {
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="3"
-                    className="w-6 h-6 stroke-sky-200 "
+                    className="w-9 h-9 stroke-sky-200 "
                   >
                     <path
                       strokeLinecap="round"
