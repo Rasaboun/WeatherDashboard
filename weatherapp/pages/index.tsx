@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { GetStaticProps } from "next";
-import { WeekDashBoard } from "component/WeekDashBoard";
-import { TodayDashBoard } from "component/TodayDashBoard";
+import { WeekDashBoard } from "@/components/WeekDashBoard";
+import { TodayDashBoard } from "@/components/TodayDashBoard";
 import {
   WeatherData,
   AirData,
   Data,
   ResultsGeo,
-} from "component/type/WeatherType";
+} from "@/components/type/WeatherType";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   let weatherDatas: WeatherData | undefined = undefined;

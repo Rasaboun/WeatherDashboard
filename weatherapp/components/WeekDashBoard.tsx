@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherData } from "component/type/WeatherType";
+import { WeatherData } from "@/components/type/WeatherType";
 
 export const WeekDashBoard = ({
   weatherData,

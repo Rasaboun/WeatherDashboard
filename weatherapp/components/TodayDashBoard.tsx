@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WeatherData, AirData, temperatureDataType } from "component/type/WeatherType";
+import { WeatherData, AirData, temperatureDataType } from "@/components/type/WeatherType";
 import {
 	ResponsiveContainer,
 	AreaChart,
