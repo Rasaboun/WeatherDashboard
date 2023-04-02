@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { WeekDashBoard } from "components/WeekDashBoard";
 import { TodayDashBoard } from "components/TodayDashBoard";
 import {
@@ -10,7 +10,7 @@ import {
   ResultsGeo,
 } from "components/type/WeatherType";
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   let weatherDatas: WeatherData | undefined = undefined;
   let data: Data = {
     weatherData: undefined,
@@ -150,7 +150,7 @@ export default function Home({ data }: { data: Data }) {
               </label>
               <div className="flex flex-row space-x-1">
                 <input
-                  className={`text-sky-900 ${validColor} font-bold rounded-lg px-3 py-2 placeholder-sky-700`}
+                  className={`text-sky-900 ${validColor} font-bold rounded-lg px-3 py-2 placeholder-sky-700 bg-sky-50`}
                   name="City"
                   defaultValue="Paris"
                   type="text"
@@ -162,7 +162,7 @@ export default function Home({ data }: { data: Data }) {
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="3"
-                    className="w-9 h-9 stroke-sky-200 "
+                    className="w-9 h-9 stroke-sky-50 "
                   >
                     <path
                       strokeLinecap="round"
