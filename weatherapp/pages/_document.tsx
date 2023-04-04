@@ -6,7 +6,7 @@ export default function Document() {
       <Head >
       <meta name="theme-color" content="rgb(219 234 254)" />
         </Head>
-      <body className="bg-blue-100 bg-gradient-to-b from-blue-100  to-blue-400 min-h-full">
+      <body className="bg-blue-100 bg-gradient-to-b from-blue-100  to-blue-400 min-h-screen">
         <Main />
         <NextScript />
       </body>

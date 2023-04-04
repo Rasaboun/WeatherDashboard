@@ -3,6 +3,7 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { GetServerSideProps } from "next";
 import { WeekDashBoard } from "components/WeekDashBoard";
 import { TodayDashBoard } from "components/TodayDashBoard";
+import { NavBar } from "@/components/NavBar";
 import {
   WeatherData,
   AirData,
@@ -16,27 +17,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     weatherData: undefined,
     airData: undefined,
   };
-  const res = await fetch(
-    "https://geocoding-api.open-meteo.com/v1/search?name=Paris"
-  );
-  const resultsGeo: ResultsGeo = await res.json();
-  if (resultsGeo) {
-    let lat = resultsGeo.results[0].latitude;
-    let long = resultsGeo.results[0].longitude;
+  try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
+      "https://geocoding-api.open-meteo.com/v1/search?name=Paris"
     );
+    const resultsGeo: ResultsGeo = await res.json();
+    if (resultsGeo) {
+      let lat = resultsGeo.results[0].latitude;
+      let long = resultsGeo.results[0].longitude;
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
+      );
 
-    const rest = await fetch(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
-    );
-    weatherDatas = await res.json();
-    const airDatas: AirData = await rest.json();
+      const rest = await fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
+      );
+      weatherDatas = await res.json();
+      const airDatas: AirData = await rest.json();
 
-    data.airData = airDatas;
-    data.weatherData = weatherDatas;
+      data.airData = airDatas;
+      data.weatherData = weatherDatas;
+      return { props: { data, errorFetch: false} };
+    }
+  } catch (error) {
+    return { props: {errorFetch : true} };
   }
-  return { props: { data } };
 };
 
 const WeatherDashboard = ({
@@ -67,42 +72,47 @@ const fetchWeatherData = async (
     weatherData: undefined,
     airData: undefined,
   };
-  const res = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
-  );
-  const resultsGeo: ResultsGeo = await res.json();
-  if (resultsGeo.results) {
-    let lat = resultsGeo.results[0].latitude;
-    let long = resultsGeo.results[0].longitude;
+  try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
+      `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
     );
 
-    const rest = await fetch(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
-    );
-    weatherDatas = await res.json();
-    const airDatas: AirData = await rest.json();
-    data.airData = airDatas;
-    data.weatherData = weatherDatas;
-    if (airDatas == undefined || weatherDatas == undefined) {
-      setError(true);
+    const resultsGeo: ResultsGeo = await res.json();
+    if (resultsGeo.results) {
+      let lat = resultsGeo.results[0].latitude;
+      let long = resultsGeo.results[0].longitude;
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weathercode&hourly=uv_index,relativehumidity_2m,windspeed_10m,apparent_temperature,temperature_2m,visibility&timezone=auto`
+      );
+
+      const rest = await fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&hourly=european_aqi&timezone=auto`
+      );
+      weatherDatas = await res.json();
+      const airDatas: AirData = await rest.json();
+      data.airData = airDatas;
+      data.weatherData = weatherDatas;
+      if (airDatas == undefined || weatherDatas == undefined) {
+        setError(true);
+      } else {
+        setError(false);
+      }
+      setValidColor("bg-sky-200");
+      setAllData(data);
     } else {
-      setError(false);
+      setValidColor("border border-red-600 bg-red-100");
+      setError(true);
     }
-    setValidColor("bg-sky-200");
-    setAllData(data);
-  } else {
-    setValidColor("border border-red-600 bg-red-100");
+  } catch (error) {
     setError(true);
   }
 };
 
-export default function Home({ data }: { data: Data }) {
+export default function Home({ data, errorFetch }: { data: Data, errorFetch: boolean }) {
   const [allData, setAllData] = useState<Data>(data);
   const [validColor, setValidColor] = useState<string>("bg-sky-200");
-  const [error, setError] = useState<boolean>(false);
-
+  const [error, setError] = useState<boolean>(errorFetch);
+  console.log(error)
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
@@ -110,18 +120,15 @@ export default function Home({ data }: { data: Data }) {
     fetchWeatherData(form.City.value, setAllData, setValidColor, setError);
   }
 
-
-  useEffect(() => {
-    fetchWeatherData("Paris", setAllData, setValidColor, setError);
-    console.log("CITY")
-  },[])
-
   return (
     <>
       <Head>
         <title>WeatherDashboard</title>
         <meta name="description" content="WeatherDashboard" />
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -141,8 +148,9 @@ export default function Home({ data }: { data: Data }) {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
+      <NavBar></NavBar>
       <main className="text-white">
-        <div className="flex space-y-4 flex-col justify-center items-center">
+        <div className="flex space-y-4 flex-col justify-center items-center mb-10">
           <form method="post" onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-4">
               <label className="text-center text-4xl font-sans text-sky-900 font-bold">
