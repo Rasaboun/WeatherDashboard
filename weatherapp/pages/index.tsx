@@ -121,7 +121,7 @@ export default function Home({ data }: { data: Data }) {
       <Head>
         <title>WeatherDashboard</title>
         <meta name="description" content="WeatherDashboard" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -141,8 +141,8 @@ export default function Home({ data }: { data: Data }) {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <main className=" text-white">
-        <div className="flex space-y-4 flex-col justify-center items-center my-10">
+      <main className="text-white">
+        <div className="flex space-y-4 flex-col justify-center items-center">
           <form method="post" onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-4">
               <label className="text-center text-4xl font-sans text-sky-900 font-bold">
