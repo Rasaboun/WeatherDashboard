@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { WeekDashBoard } from "components/WeekDashBoard";
 import { TodayDashBoard } from "components/TodayDashBoard";
 import { NavBar } from "@/components/NavBar";
+import { Footer } from "@/components/Footer";
 import {
   WeatherData,
   AirData,
@@ -40,9 +41,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return { props: { data, errorFetch: false} };
     }
   } catch (error) {
-    return { props: {errorFetch : true} };
+    return { props: {data,errorFetch : true} };
+     };
+     return { props: {data,errorFetch : true} };
   }
-};
+
 
 const WeatherDashboard = ({
   weatherData,
@@ -112,7 +115,6 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
   const [allData, setAllData] = useState<Data>(data);
   const [validColor, setValidColor] = useState<string>("bg-sky-200");
   const [error, setError] = useState<boolean>(errorFetch);
-  console.log(error)
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
@@ -148,7 +150,7 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <NavBar></NavBar>
+      <NavBar/>
       <main className="text-white">
         <div className="flex space-y-4 flex-col justify-center items-center mb-10">
           <form method="post" onSubmit={handleSubmit}>
@@ -189,8 +191,10 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
               airData={allData.airData as AirData}
             />
           )}
+          
         </div>
       </main>
+      <Footer/>
     </>
   );
 }
