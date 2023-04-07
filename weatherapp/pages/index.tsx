@@ -38,14 +38,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       data.airData = airDatas;
       data.weatherData = weatherDatas;
-      return { props: { data, errorFetch: false} };
+      return { props: { data, errorFetch: false } };
     }
   } catch (error) {
-    return { props: {data,errorFetch : true} };
-     };
-     return { props: {data,errorFetch : true} };
+    return { props: { data, errorFetch: true } };
   }
-
+  return { props: { data, errorFetch: true } };
+};
 
 const WeatherDashboard = ({
   weatherData,
@@ -111,7 +110,13 @@ const fetchWeatherData = async (
   }
 };
 
-export default function Home({ data, errorFetch }: { data: Data, errorFetch: boolean }) {
+export default function Home({
+  data,
+  errorFetch,
+}: {
+  data: Data;
+  errorFetch: boolean;
+}) {
   const [allData, setAllData] = useState<Data>(data);
   const [validColor, setValidColor] = useState<string>("bg-sky-200");
   const [error, setError] = useState<boolean>(errorFetch);
@@ -130,6 +135,11 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
         <meta
           name="viewport"
           content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
+        <title>Weathear DashBoard | Rasaboun</title>
+        <meta
+          name="description"
+          content="Here is my weather dashboard that I coded in nextjs and tailwindcss"
         />
         <link
           rel="apple-touch-icon"
@@ -150,7 +160,7 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <NavBar/>
+      <NavBar />
       <main className="text-white">
         <div className="flex space-y-4 flex-col justify-center items-center mb-10">
           <form method="post" onSubmit={handleSubmit}>
@@ -191,10 +201,9 @@ export default function Home({ data, errorFetch }: { data: Data, errorFetch: boo
               airData={allData.airData as AirData}
             />
           )}
-          
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </>
   );
 }
