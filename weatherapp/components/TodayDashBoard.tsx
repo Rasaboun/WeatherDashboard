@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 
 const DynamicTemperatureChart = dynamic(() => import("components/TemperatureChart"), {
   loading: () => <p className="text-xl font-mono font-bold ">Loading...</p>,
+  ssr: false,
 })
 
 
