@@ -2,6 +2,7 @@ export type WeatherData = {
 	latitude: number;
 	longitude: number;
 	timezone: string;
+	utc_offset_seconds: number;
 	daily_units: {};
 	daily: {
 	  time: string[];

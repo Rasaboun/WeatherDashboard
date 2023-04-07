@@ -19,19 +19,21 @@ export  const TodayDashBoard = ({
 
 
 	const todayDate = new Date();
-	const actualHours = todayDate.getHours();
+  todayDate.setTime(todayDate.getTime() + weatherData.utc_offset_seconds * 1000)
+  
+	const actualHours = todayDate.getUTCHours();
 
 	let sunrise = "";
 	let sunset = "";
 	if (weatherData) {
 	  sunset =
-		new Date(weatherData.daily.sunset[0]).getHours().toString() +
+		new Date(weatherData.daily.sunset[0]).getUTCHours().toString() +
 		":" +
-		new Date(weatherData.daily.sunset[0]).getMinutes().toString();
+		new Date(weatherData.daily.sunset[0]).getUTCMinutes().toString();
 	  sunrise =
-		new Date(weatherData.daily.sunrise[0]).getHours().toString() +
+		new Date(weatherData.daily.sunrise[0]).getUTCHours().toString() +
 		":" +
-		new Date(weatherData.daily.sunrise[0]).getMinutes().toString();
+		new Date(weatherData.daily.sunrise[0]).getUTCMinutes().toString();
 	}
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);

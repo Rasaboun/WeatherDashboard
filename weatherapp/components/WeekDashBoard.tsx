@@ -8,19 +8,23 @@ export const WeekDashBoard = ({
 }) => {
   let weatherDaily: JSX.Element[] = [];
   const dayDef: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const todayDate = new Date();
+  const todayDate = new Date()
+  todayDate.setTime(todayDate.getTime() + weatherData.utc_offset_seconds * 1000)
+
 
   for (let i = 0; i < 7; i++) {
     if (weatherData?.daily) {
-      let date = new Date(weatherData.daily.time[i]);
-      let day = date.getDay();
+      let date = new Date()
+      date.setTime(date.getTime() + weatherData.utc_offset_seconds * 1000)
+
+      let day = date.getUTCDay();
       weatherDaily.push(
         <div
           key={i.toString() + "weekDay"}
           className="items-center bg-sky-700 rounded-lg w-fit flex flex-col p-2 space-y-2 "
         >
           <h1 className="text-center text-xl font-mono font-bold">
-            {todayDate.getDay() === day ? "Today" : dayDef[day]}
+            {todayDate.getUTCDate() === day ? "Today" : dayDef[day]}
           </h1>
           <Image
             priority
