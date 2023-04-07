@@ -9,8 +9,9 @@ export const WeekDashBoard = ({
   let weatherDaily: JSX.Element[] = [];
   const dayDef: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const todayDate = new Date()
+  console.log("Now Server = ",todayDate.getUTCDate());
   todayDate.setTime(todayDate.getTime() + weatherData.utc_offset_seconds * 1000)
-
+  console.log("After Server Date = ",todayDate.getUTCDate());
 
   for (let i = 0; i < 7; i++) {
     if (weatherData?.daily) {
