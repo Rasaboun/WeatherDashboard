@@ -56,7 +56,7 @@ const WeatherDashboard = ({
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
-        {/*<WeekDashBoard weatherData={weatherData} />*/}
+        <WeekDashBoard weatherData={weatherData} />
         <TodayDashBoard airData={airData} weatherData={weatherData} />
       </div>
     </>
@@ -126,9 +126,7 @@ export default function Home({
     const form = e.currentTarget;
     fetchWeatherData(form.City.value, setAllData, setValidColor, setError);
   }
-  useEffect(() => {
-    fetchWeatherData("Paris", setAllData, setValidColor, setError);
-  }, [])
+
   return (
     <>
       <Head>

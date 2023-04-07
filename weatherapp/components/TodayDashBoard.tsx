@@ -20,19 +20,19 @@ export  const TodayDashBoard = ({
 
 	const todayDate = new Date();
   
-	const actualHours = todayDate.getUTCHours() + (weatherData.utc_offset_seconds / 3600) ;
+	const actualHours = todayDate.getUTCHours();
 
 	let sunrise = "";
 	let sunset = "";
 	if (weatherData) {
 	  sunset =
-		new Date(weatherData.daily.sunset[0]).getUTCHours() + (weatherData.utc_offset_seconds / 3600).toString() +
+		new Date(weatherData.daily.sunset[0]).getUTCHours() +
 		":" +
-		new Date(weatherData.daily.sunset[0]).getUTCMinutes()  + (weatherData.utc_offset_seconds / 3600).toString();
+		new Date(weatherData.daily.sunset[0]).getUTCMinutes() ;
 	  sunrise =
-		new Date(weatherData.daily.sunrise[0]).getUTCHours() + (weatherData.utc_offset_seconds / 3600).toString() +
+		new Date(weatherData.daily.sunrise[0]).getUTCHours() +
 		":" +
-		new Date(weatherData.daily.sunrise[0]).getUTCMinutes()  + (weatherData.utc_offset_seconds / 3600).toString();
+		new Date(weatherData.daily.sunrise[0]).getUTCMinutes() ;
 	}
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);
