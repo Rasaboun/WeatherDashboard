@@ -45,7 +45,7 @@ import {
 	let temperatureData = [];
 	  for (let i = 0; i < 24; i++) {
 		let tmp: temperatureDataType = {
-		  time: new Date(weatherData.hourly.time[i]).getHours(),
+		  time: new Date(weatherData.hourly.time[i]).getUTCHours(),
 		  temperature: weatherData.hourly.temperature_2m[i],
 		};
 		temperatureData.push(tmp);
