@@ -1,13 +1,11 @@
 import Image from "next/image";
 import { WeatherData, AirData, temperatureDataType } from "components/type/WeatherType";
-import {
-	ResponsiveContainer,
-	AreaChart,
-	YAxis,
-	XAxis,
-	Tooltip,
-	Area,
-  } from "recharts";
+import dynamic from 'next/dynamic'
+
+
+const DynamicTemperatureChart = dynamic(() => import("components/TemperatureChart"), {
+  loading: () => <p className="text-xl font-mono font-bold ">Loading...</p>,
+})
 
 
 export  const TodayDashBoard = ({
@@ -21,7 +19,6 @@ export  const TodayDashBoard = ({
 
 	const todayDate = new Date();
 	const actualHours = todayDate.getHours();
-	const temperatureData = CreateTemperatureDataSet(weatherData);
 
 	let sunrise = "";
 	let sunset = "";
@@ -166,27 +163,7 @@ export  const TodayDashBoard = ({
           </div>
         </div>
         <div className="shadow-2xl row-span-2 col-span-2 bg-sky-700 rounded-xl justify-center content-center">
-          <ResponsiveContainer width="100%" height={242}>
-            <AreaChart data={temperatureData}>
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ffffff" stopOpacity={0.2} />
-                  <stop offset="80%" stopColor="#0284c7" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="time" stroke="white" />
-              <YAxis unit="°C" stroke="white" />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                type="monotone"
-                dataKey="temperature"
-                stroke="#0c4a6e"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorUv)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+            <DynamicTemperatureChart weatherData={weatherData}/>
         </div>
 
         <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
@@ -320,25 +297,5 @@ const chooseAirQualityColor = (actualHours: number, airData: AirData) =>  {
 	return colorAir;
 }
 
-const CreateTemperatureDataSet = (weatherData: WeatherData) => {
-	let temperatureData = [];
-	  for (let i = 0; i < 24; i++) {
-		let tmp: temperatureDataType = {
-		  time: new Date(weatherData.hourly.time[i]).getHours(),
-		  temperature: weatherData.hourly.temperature_2m[i],
-		};
-		temperatureData.push(tmp);
-	  }
-	  return (temperatureData)
-}
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-	if (active && payload && payload.length) {
-	  return (
-		<div>
-		  <p>{`${payload[0].value} °C`}</p>
-		</div>
-	  );
-	}
-	return null;
-  };
+

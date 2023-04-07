@@ -6,44 +6,49 @@ export const Footer = () => {
           <div className="grid gap-y-10 gap-x-12 sm:gap-x-24 grid-cols-3 ">
             <div>
               <h2 className="mb-6 text-sm font-semibold text-sky-50 uppercase">
-                Resources
+                SiteMap
               </h2>
-              <ul className="text-sky-100 font-medium">
-                <li className="mb-4">
-                  <a href="https://flowbite.com/" className="hover:underline">
-                    Flowbite
-                  </a>
+              <ul className="text-sky-100 font-medium flex flex-col space-y-4">
+                <li className="">
+                  <span className="hover:underline">
+                    Rasaboun
+                  </span>
                 </li>
                 <li>
-                  <a
-                    href="https://tailwindcss.com/"
+                  <span
                     className="hover:underline"
                   >
-                    Tailwind CSS
-                  </a>
+                    Blog
+                  </span>
+                </li>
+				<li>
+                  <span
+                    className="hover:underline"
+                  >
+                    Portfolio
+                  </span>
                 </li>
               </ul>
             </div>
             <div>
               <h2 className="mb-6 text-sm font-semibold text-sky-50 uppercase">
-                Follow us
+                Follow Me
               </h2>
-              <ul className="text-sky-100 font-medium">
-                <li className="mb-4">
+              <ul className="text-sky-100 font-medium flex flex-col space-y-4">
+                <li className="">
                   <a
-                    href="https://github.com/themesberg/flowbite"
+				  href="https://github.com/Rasaboun"
                     className="hover:underline "
                   >
                     Github
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://discord.gg/4eeurUVvTy"
+                  <span
                     className="hover:underline"
                   >
-                    Discord
-                  </a>
+                    Twitter
+                  </span>
                 </li>
               </ul>
             </div>
@@ -51,8 +56,8 @@ export const Footer = () => {
               <h2 className="mb-6 text-sm font-semibold text-sky-50 uppercase">
                 Legal
               </h2>
-              <ul className="text-sky-100 font-medium">
-                <li className="mb-4">
+              <ul className="text-sky-100 font-medium flex flex-col space-y-4">
+                <li className="">
                   <a href="#" className="hover:underline">
                     Privacy Policy
                   </a>
@@ -68,7 +73,7 @@ export const Footer = () => {
         </div>
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-base text-sky-50 sm:text-center ">
-            © 2023 Flowbite™ . All Rights Reserved.
+            © 2023 Rasaboun . All Rights Reserved.
           </span>
         </div>
       </div>
