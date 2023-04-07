@@ -126,7 +126,9 @@ export default function Home({
     const form = e.currentTarget;
     fetchWeatherData(form.City.value, setAllData, setValidColor, setError);
   }
-
+  useEffect(() => {
+    fetchWeatherData("Paris", setAllData, setValidColor, setError);
+  }, [])
   return (
     <>
       <Head>
