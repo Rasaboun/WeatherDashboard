@@ -35,6 +35,8 @@ export  const TodayDashBoard = ({
 	}
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);
+  console.log("sunset is : ",sunset)
+  console.log("sunrise is : ",sunrise)
 	return (
 		
 		<>
