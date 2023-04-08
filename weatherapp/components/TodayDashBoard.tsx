@@ -19,8 +19,9 @@ export  const TodayDashBoard = ({
 
 
 	const todayDate = new Date();
-	const actualHours = new Date().getHours();
-  
+	const actualHoursDate = new Date();
+  actualHoursDate.setTime(actualHoursDate.getTime() + weatherData.utc_offset_seconds * 1000)
+  const actualHours = actualHoursDate.getUTCHours();
 	let sunrise = "";
 	let sunset = "";
 	if (weatherData) {
