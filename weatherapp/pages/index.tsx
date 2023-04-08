@@ -195,12 +195,12 @@ export default function Home({
             </div>
           </form>
 
-          {!error && (
+          {/*!error && (
             <WeatherDashboard
               weatherData={allData.weatherData as WeatherData}
               airData={allData.airData as AirData}
             />
-          )}
+          )*/}
         </div>
       </main>
       <Footer />
