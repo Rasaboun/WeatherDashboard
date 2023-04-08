@@ -12,7 +12,7 @@ export const WeekDashBoard = ({
 
   for (let i = 0; i < 7; i++) {
     if (weatherData?.daily) {
-      let date = new Date()
+      let date = new Date(weatherData.daily.time[i])
 
       let day = date.getDay();
       weatherDaily.push(
