@@ -8,7 +8,7 @@ export const NavBar = () => {
 			<a href="rasaboun.me">
 				Rasaboun
 			</a>
-			<div className="ml-6 flex flex-row space-x-8 ">
+			<div className="ml-6 flex flex-row space-x-3 md:space-x-8 ">
 			<span>
 				PortFolio
 			</span>
