@@ -56,8 +56,8 @@ const WeatherDashboard = ({
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
-        <WeekDashBoard weatherData={weatherData} />
-        {/*<TodayDashBoard airData={airData} weatherData={weatherData} />*/}
+        {/*<WeekDashBoard weatherData={weatherData} />*/}
+        <TodayDashBoard airData={airData} weatherData={weatherData} />
       </div>
     </>
   );
