@@ -26,16 +26,16 @@ export  const TodayDashBoard = ({
 	if (weatherData) {
     let sunsetDate = new Date(weatherData.daily.sunset[0])
     sunsetDate.setTime(sunsetDate.getTime() - todayDate.getTimezoneOffset() * 60000)
-    console.log("sunsetDate hours : ", sunsetDate.getUTCHours())
-    console.log("sunsetDate hours : ", sunsetDate.getUTCMinutes())
 	  sunset =
-		(new Date(weatherData.daily.sunset[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)) +
+		sunsetDate.getUTCHours() +
 		":" +
-		(new Date(weatherData.daily.sunset[0]).getUTCMinutes() - (todayDate.getTimezoneOffset())) ;
+		sunsetDate.getUTCMinutes();
+    let sunriseDate = new Date(weatherData.daily.sunset[0])
+    sunriseDate.setTime(sunriseDate.getTime() - todayDate.getTimezoneOffset() * 60000)
 	  sunrise =
-		(new Date(weatherData.daily.sunrise[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)) +
+		sunriseDate.getUTCHours() +
 		":" +
-		(new Date(weatherData.daily.sunrise[0]).getUTCMinutes() - (todayDate.getTimezoneOffset() / 60) );
+		sunriseDate.getUTCMinutes();
 	}
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);
