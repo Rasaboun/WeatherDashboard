@@ -36,7 +36,7 @@ export  const TodayDashBoard = ({
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);
   console.log("sunset is : ",sunset)
-  let parisdate = new Date(weatherData.daily.sunset[0]).getUTCHours() + (todayDate.getTimezoneOffset() / 60)
+  let parisdate = new Date(weatherData.daily.sunset[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)
   console.log("sunset hours is : ", parisdate)
   console.log("sunset hours : ", new Date(weatherData.daily.sunset[0]).getUTCHours())
   console.log("TimeZone is : ", weatherData.timezone)
