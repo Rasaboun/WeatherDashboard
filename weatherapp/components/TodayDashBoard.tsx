@@ -24,6 +24,9 @@ export  const TodayDashBoard = ({
 	let sunrise = "";
 	let sunset = "";
 	if (weatherData) {
+    let sunsetDate = new Date(weatherData.daily.sunset[0])
+    sunsetDate.setTime(sunsetDate.getTime() - todayDate.getTimezoneOffset() * 60000)
+    console.log("sunsetDate hours : ", sunsetDate.getUTCHours())
 	  sunset =
 		(new Date(weatherData.daily.sunset[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)) +
 		":" +
