@@ -14,14 +14,14 @@ export const WeekDashBoard = ({
     if (weatherData?.daily) {
       let date = new Date()
 
-      let day = date.getUTCDay();
+      let day = date.getDay();
       weatherDaily.push(
         <div
           key={i.toString() + "weekDay"}
           className="items-center bg-sky-700 rounded-lg w-fit flex flex-col p-2 space-y-2 "
         >
           <h1 className="text-center text-xl font-mono font-bold">
-            {todayDate.getUTCDate() === day ? "Today" : dayDef[day]}
+            {todayDate.getDate() === day ? "Today" : dayDef[day]}
           </h1>
           <Image
             priority
