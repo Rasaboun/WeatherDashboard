@@ -19,7 +19,6 @@ export  const TodayDashBoard = ({
 
 
 	const todayDate = new Date();
-  console.log("hi time OFFSET is : ",todayDate.getUTCMinutes())
 	const actualHours = todayDate.getUTCHours();
 
 	let sunrise = "";
@@ -67,6 +66,7 @@ export  const TodayDashBoard = ({
             </div>
           </div>
         </div>
+        {/*
         <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
@@ -237,6 +237,7 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
+                */}
 		</>
 	)
 }
