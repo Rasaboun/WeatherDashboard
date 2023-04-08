@@ -19,24 +19,24 @@ export  const TodayDashBoard = ({
 
 
 	const todayDate = new Date();
-	const actualHours = todayDate.getUTCHours();
-
+	const actualHours = todayDate.getUTCHours() - (todayDate.getTimezoneOffset() / 60);
+  
 	let sunrise = "";
 	let sunset = "";
 	if (weatherData) {
 	  sunset =
-		new Date(weatherData.daily.sunset[0]).getUTCHours() +
+		(new Date(weatherData.daily.sunset[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)) +
 		":" +
-		new Date(weatherData.daily.sunset[0]).getUTCMinutes() ;
+		(new Date(weatherData.daily.sunset[0]).getUTCMinutes() - (todayDate.getTimezoneOffset())) ;
 	  sunrise =
-		new Date(weatherData.daily.sunrise[0]).getUTCHours() +
+		(new Date(weatherData.daily.sunrise[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)) +
 		":" +
-		new Date(weatherData.daily.sunrise[0]).getUTCMinutes() ;
+		(new Date(weatherData.daily.sunrise[0]).getUTCMinutes() - (todayDate.getTimezoneOffset() / 60) );
 	}
 	const qualityColor = chooseQualityColor(actualHours, weatherData);
 	const colorAir = chooseAirQualityColor(actualHours, airData);
   console.log("sunset is : ",sunset)
-  let parisdate = new Date(weatherData.daily.sunset[0]).getUTCHours() - (todayDate.getTimezoneOffset() / 60)
+  let parisdate = new Date(weatherData.daily.sunset[0]).getUTCHours() 
   console.log("sunset hours is : ", parisdate)
   console.log("sunset hours : ", new Date(weatherData.daily.sunset[0]).getUTCHours())
   console.log("TimeZone is : ", weatherData.timezone)
@@ -71,7 +71,7 @@ export  const TodayDashBoard = ({
             </div>
           </div>
         </div>
-        {/*
+        
         <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
           <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
@@ -242,7 +242,7 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
-                */}
+                
 		</>
 	)
 }
