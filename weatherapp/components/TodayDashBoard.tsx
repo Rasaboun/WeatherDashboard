@@ -19,7 +19,7 @@ export  const TodayDashBoard = ({
 
 
 	const todayDate = new Date();
-  
+  console.log(todayDate.getTimezoneOffset())
 	const actualHours = todayDate.getUTCHours();
 
 	let sunrise = "";
