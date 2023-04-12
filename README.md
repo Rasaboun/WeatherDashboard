@@ -1,4 +1,3 @@
 # WeatherDashboard
 
-
-// To do error for non existant city
+https://weatherdashboard.rasaboun.me/
