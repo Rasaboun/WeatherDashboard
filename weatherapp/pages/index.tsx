@@ -163,7 +163,7 @@ export default function Home({
       <NavBar />
       <main className="text-white">
         <div className="flex space-y-10 flex-col justify-center items-center mb-10">
-          <form method="post" onSubmit={handleSubmit} className="mt-16">
+          <form method="post" onSubmit={handleSubmit} className="mt-20">
             <div className="flex flex-col space-y-4">
               <label className="text-center text-4xl font-sans text-sky-900 font-semibold">
                 Your City

@@ -44,7 +44,7 @@ export const WeekDashBoard = ({
   }
   return (
     <div className="flex flex-col space-y-6 col-span-full  row-span-2">
-      <h1 className="font-semibold text-3xl font-sans tracking-wide	 text-sky-900">This Week</h1>
+      <h1 className="font-medium text-3xl font-sans tracking-wide	 text-sky-900">This Week</h1>
       <div className="bg-blue-300 shadow-2xl rounded-xl p-3">
         <div className="overflow-auto flex flex-row justify-between space-x-3">
           {weatherDaily}
