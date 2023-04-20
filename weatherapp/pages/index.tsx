@@ -165,7 +165,7 @@ export default function Home({
         <div className="flex space-y-10 flex-col justify-center items-center mb-10">
           <form method="post" onSubmit={handleSubmit} className="mt-20">
             <div className="flex flex-col space-y-4">
-              <label className="text-center text-4xl font-sans text-sky-900 font-semibold">
+              <label className="text-center text-4xl font-sans text-sky-900 font-medium">
                 Your City
               </label>
               <div className="flex flex-row space-x-1">
