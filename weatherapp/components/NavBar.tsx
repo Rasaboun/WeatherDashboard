@@ -9,15 +9,15 @@ export const NavBar = () => {
 				Rasaboun
 			</a>
 			<div className="ml-6 flex flex-row space-x-3 md:space-x-8 ">
-			<span>
+			<a href="https://www.rasaboun.me/Portfolio">
 				PortFolio
-			</span>
-			<span>
+			</a>
+			<a href="https://www.rasaboun.me/Blog">
 				Blog
-			</span>
-			<span>
+			</a>
+			<a href="https://github.com/Rasaboun">
 				GitHub
-			</span>
+			</a>
 			</div>
 			</div>
 		</nav>

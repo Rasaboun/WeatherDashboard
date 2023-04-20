@@ -10,23 +10,15 @@ export const Footer = () => {
               </h2>
               <ul className="text-sky-100 font-medium flex flex-col space-y-4">
                 <li className="">
-                  <span className="hover:underline">
+                  <a className="hover:underline" href="https://www.rasaboun.me">
                     Rasaboun
-                  </span>
+                  </a>
                 </li>
                 <li>
-                  <span
-                    className="hover:underline"
-                  >
-                    Blog
-                  </span>
+                  <a className="hover:underline" href="https://www.rasaboun.me/Blog">Blog</a>
                 </li>
-				<li>
-                  <span
-                    className="hover:underline"
-                  >
-                    Portfolio
-                  </span>
+                <li>
+                  <a className="hover:underline" href="https://www.rasaboun.me/Portfolio">Portfolio</a>
                 </li>
               </ul>
             </div>
@@ -37,18 +29,14 @@ export const Footer = () => {
               <ul className="text-sky-100 font-medium flex flex-col space-y-4">
                 <li className="">
                   <a
-				  href="https://github.com/Rasaboun"
+                    href="https://github.com/Rasaboun"
                     className="hover:underline "
                   >
                     Github
                   </a>
                 </li>
                 <li>
-                  <span
-                    className="hover:underline"
-                  >
-                    Twitter
-                  </span>
+                  <span className="hover:underline">Twitter</span>
                 </li>
               </ul>
             </div>
