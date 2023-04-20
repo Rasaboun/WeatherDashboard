@@ -3,8 +3,8 @@
 export const NavBar = () => {
 
 	return (
-		<nav className="flex justify-center items-center text-sky-700 font-bold text-xl my-4">
-			<div className="backdrop-blur-md bg-white/50 flex flex-row p-2 rounded-xl drop-shadow-xl w-fit">
+		<nav className="fixed inset-x-0 top-0 flex justify-center items-center text-sky-700 font-bold text-xl my-4">
+			<div className="backdrop-blur-md bg-white/50 flex flex-row p-2 rounded-3xl shadow-2xl shadow-gray-950/60 text-lg font-semibold w-fit">
 			<a href="rasaboun.me">
 				Rasaboun
 			</a>

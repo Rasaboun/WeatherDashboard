@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 
 
 const DynamicTemperatureChart = dynamic(() => import("components/TemperatureChart"), {
-  loading: () => <p className="text-xl font-mono font-bold ">Loading...</p>,
+  loading: () => <p className="text-xl font-medium ">Loading...</p>,
   ssr: false,
 })
 
@@ -44,11 +44,11 @@ export  const TodayDashBoard = ({
 	return (
 		
 		<>
-		 <h1 className=" col-span-full  row-span-2 font-bold text-4xl font-sans text-sky-900">
+		 <h1 className=" col-span-full  row-span-2 font-medium text-3xl tracking-wide	 text-sky-900">
           Today
         </h1>
         <div className="place-content-center shadow-2xl align-middle overflow-auto bg-sky-700 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">
-          <h1 className=" text-xl font-mono font-bold ">Sunrise & Sunset</h1>
+          <h1 className=" text-xl font-medium ">Sunrise & Sunset</h1>
           <div className="flex flex-col space-y-2">
             <div className="justify-center flex flex-row space-x-2 items-center">
               <Image
@@ -58,7 +58,7 @@ export  const TodayDashBoard = ({
                 height={40}
                 width={40}
               />
-              <p className="font-medium text-lg">{sunrise}</p>
+              <p className="font-normal text-lg">{sunrise}</p>
             </div>
             <div className="justify-center flex flex-row space-x-2 items-center">
               <Image
@@ -68,13 +68,13 @@ export  const TodayDashBoard = ({
                 height={40}
                 width={40}
               />
-              <p className="text-lg font-medium">{sunset}</p>
+              <p className="text-lg font-normal">{sunset}</p>
             </div>
           </div>
         </div>
         
-        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-          <h1 className="text-center text-xl font-mono font-bold">Humidity</h1>
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-medium flex flex-col space-y-1">
+          <h1 className="text-center text-xl  font-medium">Humidity</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
             <Image
               priority
@@ -83,7 +83,7 @@ export  const TodayDashBoard = ({
               height={42}
               width={42}
             />
-            <p className="text-lg font-medium">
+            <p className="text-lg font-normal">
               {weatherData?.hourly.relativehumidity_2m[
                 actualHours
               ].toString() + " %"}
@@ -91,8 +91,8 @@ export  const TodayDashBoard = ({
           </div>
         </div>
 
-        <div className="shadow-2xl  bg-sky-700 py-4 row-span-1 px-4 rounded-xl text-lg font-semibold flex flex-col justify-center items-center">
-          <h1 className="text-center text-xl font-mono font-bold">UV Index</h1>
+        <div className="shadow-2xl  bg-sky-700 py-4 row-span-1 px-4 rounded-xl text-lg font-medium flex flex-col justify-center items-center">
+          <h1 className="text-center text-xl font-medium">UV Index</h1>
           <div className="justify-center flex flex-row space-x-2 items-center">
             <svg
               width="42"
@@ -121,13 +121,13 @@ export  const TodayDashBoard = ({
                 </linearGradient>
               </defs>
             </svg>
-            <p className="font-semibold text-lg">
+            <p className="font-normal text-lg">
               {weatherData?.hourly.uv_index[actualHours]}
             </p>
           </div>
         </div>
-        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-          <h1 className="text-center text-xl font-mono font-bold">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-medium flex flex-col space-y-1">
+          <h1 className="text-center text-xl font-medium">
             Visibility
           </h1>
 
@@ -140,7 +140,7 @@ export  const TodayDashBoard = ({
               width={32}
             />
 
-            <p className="text-lg font-medium">
+            <p className="text-lg font-normal">
               {weatherData?.hourly.visibility[0]
                 ? (
                     weatherData.hourly.visibility[actualHours] / 1000
@@ -149,8 +149,8 @@ export  const TodayDashBoard = ({
             </p>
           </div>
         </div>
-        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-          <h1 className="text-center text-xl font-mono font-bold">WindSpeed</h1>
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-medium flex flex-col space-y-1">
+          <h1 className="text-center text-xl font-medium">WindSpeed</h1>
 
           <div className="justify-center flex flex-row space-x-2 items-center">
             <Image
@@ -161,7 +161,7 @@ export  const TodayDashBoard = ({
               width={32}
             />
 
-            <p className="text-lg font-medium">
+            <p className="text-lg font-normal">
               {weatherData?.hourly.windspeed_10m
                 ? weatherData.hourly.windspeed_10m[
                     actualHours
@@ -174,8 +174,8 @@ export  const TodayDashBoard = ({
             <DynamicTemperatureChart weatherData={weatherData}/>
         </div>
 
-        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-          <h1 className="text-center text-xl font-mono font-bold">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-medium flex flex-col space-y-1">
+          <h1 className="text-center text-xl font-medium">
             Fells Like
           </h1>
 
@@ -208,7 +208,7 @@ export  const TodayDashBoard = ({
               </defs>
             </svg>
 
-            <p className="text-lg font-medium">
+            <p className="text-lg font-normal">
               {weatherData?.hourly.apparent_temperature
                 ? weatherData.hourly.apparent_temperature[
                     actualHours
@@ -218,8 +218,8 @@ export  const TodayDashBoard = ({
           </div>
         </div>
 
-        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-semibold flex flex-col space-y-1">
-          <h1 className="text-center text-xl font-mono font-bold">
+        <div className="shadow-2xl  bg-sky-700 py-4 px-4 justify-center content-center rounded-xl text-lg font-medium flex flex-col space-y-1">
+          <h1 className="text-center text-xl font-medium">
             Air Quality
           </h1>
 
@@ -234,7 +234,7 @@ export  const TodayDashBoard = ({
               <path d="M8.5 1.5a.5.5 0 1 0-1 0v5.243L7 7.1V4.72C7 3.77 6.23 3 5.28 3c-.524 0-1.023.27-1.443.592-.431.332-.847.773-1.216 1.229-.736.908-1.347 1.946-1.58 2.48-.176.405-.393 1.16-.556 2.011-.165.857-.283 1.857-.241 2.759.04.867.233 1.79.838 2.33.67.6 1.622.556 2.741-.004l1.795-.897A2.5 2.5 0 0 0 7 11.264V10.5a.5.5 0 0 0-1 0v.764a1.5 1.5 0 0 1-.83 1.342l-1.794.897c-.978.489-1.415.343-1.628.152-.28-.25-.467-.801-.505-1.63-.037-.795.068-1.71.224-2.525.157-.82.357-1.491.491-1.8.19-.438.75-1.4 1.44-2.25.342-.422.703-.799 1.049-1.065.358-.276.639-.385.833-.385a.72.72 0 0 1 .72.72v3.094l-1.79 1.28a.5.5 0 0 0 .58.813L8 7.614l3.21 2.293a.5.5 0 1 0 .58-.814L10 7.814V4.72a.72.72 0 0 1 .72-.72c.194 0 .475.11.833.385.346.266.706.643 1.05 1.066.688.85 1.248 1.811 1.439 2.249.134.309.334.98.491 1.8.156.814.26 1.73.224 2.525-.038.829-.224 1.38-.505 1.63-.213.19-.65.337-1.628-.152l-1.795-.897A1.5 1.5 0 0 1 10 11.264V10.5a.5.5 0 0 0-1 0v.764a2.5 2.5 0 0 0 1.382 2.236l1.795.897c1.12.56 2.07.603 2.741.004.605-.54.798-1.463.838-2.33.042-.902-.076-1.902-.24-2.759-.164-.852-.38-1.606-.558-2.012-.232-.533-.843-1.571-1.579-2.479-.37-.456-.785-.897-1.216-1.229C11.743 3.27 11.244 3 10.72 3 9.77 3 9 3.77 9 4.72V7.1l-.5-.357V1.5Z" />
             </svg>
 
-            <p className="text-lg font-medium">
+            <p className="text-lg font-normal">
               {airData?.hourly.european_aqi
                 ? airData?.hourly.european_aqi[
                     actualHours

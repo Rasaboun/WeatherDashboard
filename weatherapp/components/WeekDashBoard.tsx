@@ -20,7 +20,7 @@ export const WeekDashBoard = ({
           key={i.toString() + "weekDay"}
           className="items-center bg-sky-700 rounded-lg w-fit flex flex-col p-2 space-y-2 "
         >
-          <h1 className="text-center text-xl font-mono font-bold">
+          <h1 className="text-center text-xl font-mono font-medium">
             {todayDate.getDate() === day ? "Today" : dayDef[day]}
           </h1>
           <Image
@@ -31,7 +31,7 @@ export const WeekDashBoard = ({
             width={40}
           />
           <div className="flex flex-row space-x-2">
-            <p className="font-bold">
+            <p className="font-semibold">
               {weatherData?.daily.temperature_2m_max[i]}°C
             </p>
             <p className="font-light">
@@ -43,8 +43,8 @@ export const WeekDashBoard = ({
     }
   }
   return (
-    <div className="flex flex-col space-y-10 col-span-full  row-span-2">
-      <h1 className="font-bold text-4xl font-sans text-sky-900">This Week</h1>
+    <div className="flex flex-col space-y-6 col-span-full  row-span-2">
+      <h1 className="font-semibold text-3xl font-sans tracking-wide	 text-sky-900">This Week</h1>
       <div className="bg-blue-300 shadow-2xl rounded-xl p-3">
         <div className="overflow-auto flex flex-row justify-between space-x-3">
           {weatherDaily}

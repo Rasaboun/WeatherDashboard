@@ -55,7 +55,7 @@ const WeatherDashboard = ({
 }) => {
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-4 mx-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-4 mx-8">
         <WeekDashBoard weatherData={weatherData} />
         <TodayDashBoard airData={airData} weatherData={weatherData} />
       </div>
@@ -162,10 +162,10 @@ export default function Home({
       </Head>
       <NavBar />
       <main className="text-white">
-        <div className="flex space-y-4 flex-col justify-center items-center mb-10">
-          <form method="post" onSubmit={handleSubmit}>
+        <div className="flex space-y-10 flex-col justify-center items-center mb-10">
+          <form method="post" onSubmit={handleSubmit} className="mt-16">
             <div className="flex flex-col space-y-4">
-              <label className="text-center text-4xl font-sans text-sky-900 font-bold">
+              <label className="text-center text-4xl font-sans text-sky-900 font-semibold">
                 Your City
               </label>
               <div className="flex flex-row space-x-1">
