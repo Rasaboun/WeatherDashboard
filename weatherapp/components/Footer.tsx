@@ -10,7 +10,7 @@ export const Footer = () => {
               </h2>
               <ul className="text-sky-100 font-medium flex flex-col space-y-4">
                 <li className="">
-                  <a className="hover:underline" href="www.rasaboun.me">
+                  <a className="hover:underline" href="https://www.rasaboun.me">
                     Rasaboun
                   </a>
                 </li>
