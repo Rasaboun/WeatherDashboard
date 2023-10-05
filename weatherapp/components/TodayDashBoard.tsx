@@ -44,7 +44,7 @@ export  const TodayDashBoard = ({
 	return (
 		
 		<>
-		 <h1 className=" col-span-full  row-span-2 font-medium text-3xl tracking-wide	 text-sky-900">
+		 <h1 className=" col-span-full  row-span-2 font-semibold text-4xl tracking-wide	 text-sky-900">
           Today
         </h1>
         <div className="place-content-center shadow-2xl align-middle overflow-auto bg-sky-700 rounded-xl row-span-2 p-6 flex flex-col space-x-2 space-y-6 text-center ">

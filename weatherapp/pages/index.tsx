@@ -160,17 +160,17 @@ export default function Home({
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-      <NavBar />
+     
       <main className="text-white">
         <div className="flex space-y-10 flex-col justify-center items-center mb-10">
-          <form method="post" onSubmit={handleSubmit} className="mt-20">
-            <div className="flex flex-col space-y-4">
-              <label className="text-center text-4xl text-sky-900 font-normal">
+          <form method="post" onSubmit={handleSubmit} className="mt-10">
+            <div className="flex flex-col space-y-4 items-center">
+              <label className="text-center text-4xl text-sky-900 font-medium">
                 Your City
               </label>
               <div className="flex flex-row space-x-1">
                 <input
-                  className={`text-sky-900 ${validColor} font-bold rounded-lg px-3 py-2 placeholder-sky-700 bg-sky-50`}
+                  className={`text-sky-900 ${validColor} font-semibold rounded-lg px-3 py-2 placeholder-sky-700 bg-sky-50`}
                   name="City"
                   defaultValue="Paris"
                   type="text"
@@ -203,7 +203,7 @@ export default function Home({
           )}
         </div>
       </main>
-      <Footer />
+     
     </>
   );
 }
