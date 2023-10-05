@@ -5,6 +5,8 @@ import { WeekDashBoard } from "components/WeekDashBoard";
 import { TodayDashBoard } from "components/TodayDashBoard";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+import img from "./../public/favicon.png"
+
 import {
   WeatherData,
   AirData,
@@ -141,23 +143,8 @@ export default function Home({
           name="description"
           content="Here is my weather dashboard that I coded in nextjs and tailwindcss"
         />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+      <link rel="icon" type="image/png" href={img.src} />
+
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
      
